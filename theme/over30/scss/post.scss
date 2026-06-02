@@ -182,3 +182,16 @@ h1,h2,h3,.h1,.h2,.h3{font-family:'Cormorant Garamond',Georgia,serif;letter-spaci
     .o30-footer__top{grid-template-columns:5fr 1fr 3fr 3fr;}
     .o30-footer__bottom{flex-direction:row;justify-content:space-between;}
 }
+
+// ---------- Page header ----------
+#page-header, .page-header-headings { padding-top: 1.25rem; }
+#page-header .o30-label, .page-header-headings .o30-label { margin-bottom: .5rem; }
+#page-header h1, .page-header-headings h1 { font-family:'Cormorant Garamond',Georgia,serif; font-size:clamp(2rem,4vw,3.25rem); line-height:1.05; margin-top:.25rem; }
+
+// ---------- Login ----------
+.o30-login{display:grid;grid-template-columns:1fr;min-height:70vh;}
+.o30-login__brand{display:none;flex-direction:column;justify-content:center;padding:4rem;}
+.o30-login__head{font-size:clamp(2rem,4vw,3.25rem);line-height:1.05;margin-top:1rem;}
+.o30-login__head em{font-style:italic;font-weight:300;color:#e0a899;}
+.o30-login__form{display:flex;flex-direction:column;justify-content:center;padding:2.5rem;background:#fdfbf7;}
+@media(min-width:992px){.o30-login{grid-template-columns:1fr 1fr;}.o30-login__brand{display:flex;}}
