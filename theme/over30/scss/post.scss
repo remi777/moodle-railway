@@ -1,1 +1,37 @@
-// filled in Task 2
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+$espresso:#2a1b1a; $terracotta:#b35041; $blush:#e0a899; $cream:#fdfbf7; $sand:#f2f0eb; $footer:#1a100f; $ease:cubic-bezier(.22,1,.36,1);
+
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:$cream;color:$espresso;}
+.o30-serif{font-family:'Cormorant Garamond',Georgia,serif;}
+h1,h2,h3,.h1,.h2,.h3{font-family:'Cormorant Garamond',Georgia,serif;letter-spacing:-.01em;}
+.o30-container{max-width:1400px;margin:0 auto;padding-left:1.5rem;padding-right:1.5rem;}
+@media(min-width:768px){.o30-container{padding-left:3rem;padding-right:3rem;}}
+
+// Editorial label with leading rule
+.o30-label{display:inline-flex;align-items:center;gap:.75rem;text-transform:uppercase;letter-spacing:.2em;font-size:11px;font-weight:700;color:$terracotta;}
+.o30-label::before{content:"";width:2rem;height:1px;background:currentColor;}
+
+// Buttons
+.o30-btn{display:inline-flex;align-items:center;gap:1rem;padding:1rem 2rem;font-size:13px;text-transform:uppercase;letter-spacing:.1em;font-weight:500;border:0;cursor:pointer;transition:background-color .3s $ease,color .3s $ease,border-color .3s $ease;text-decoration:none;}
+.o30-btn--solid{background:$espresso;color:#fff;} .o30-btn--solid:hover{background:$terracotta;color:#fff;}
+.o30-btn--outline{background:transparent;color:$espresso;border:1px solid rgba($espresso,.2);} .o30-btn--outline:hover{border-color:$espresso;}
+.o30-btn--light{background:#fff;color:$espresso;} .o30-btn--light:hover{background:$blush;}
+.o30-btn .o30-arrow{transition:transform .3s $ease;} .o30-btn:hover .o30-arrow{transform:translateX(4px);}
+
+// Dark section
+.o30-dark{background:$espresso;color:#fff;} .o30-dark .o30-label{color:$blush;} .o30-dark h1,.o30-dark h2,.o30-dark h3{color:#fff;}
+
+// Generic square cards/shadows on native Moodle markup
+.card,.block,.generalbox{border-radius:0;border-color:rgba($espresso,.1);box-shadow:0 4px 20px rgba(0,0,0,.05);}
+
+// Buttons (native Bootstrap) toward brand
+.btn{text-transform:uppercase;letter-spacing:.1em;font-weight:500;border-radius:0;}
+.btn-primary{background:$espresso;border-color:$espresso;color:#fff;} .btn-primary:hover{background:$terracotta;border-color:$terracotta;}
+
+// Navbar — calm cream
+.navbar{background:$cream !important;border-bottom:1px solid rgba($espresso,.1);box-shadow:none;}
+.navbar .navbar-brand{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:$espresso;}
+
+// Scroll reveal (approximates framer-motion fadeUp)
+.o30-reveal{opacity:0;transform:translateY(30px);transition:opacity .8s $ease,transform .8s $ease;}
+.o30-reveal.is-visible{opacity:1;transform:none;}

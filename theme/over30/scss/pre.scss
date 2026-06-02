@@ -1,1 +1,9 @@
-// filled in Task 2
+// ===== over30. brand variables (pre-bootstrap) =====
+$o30-espresso:#2a1b1a; $o30-terracotta:#b35041; $o30-blush:#e0a899; $o30-cream:#fdfbf7; $o30-sand:#f2f0eb; $o30-footer:#1a100f;
+$primary:$o30-terracotta; $secondary:$o30-espresso; $dark:$o30-espresso;
+$body-bg:$o30-cream; $body-color:$o30-espresso; $link-color:$o30-terracotta; $link-hover-color:$o30-espresso;
+$border-radius:0; $border-radius-sm:0; $border-radius-lg:0; $border-radius-xl:0; $border-radius-pill:0;
+$font-family-sans-serif:'Plus Jakarta Sans',system-ui,sans-serif;
+$headings-font-family:'Cormorant Garamond',Georgia,serif; $headings-font-weight:500; $headings-line-height:1.05;
+$container-max-widths:(sm:540px,md:720px,lg:960px,xl:1140px,xxl:1400px);
+$btn-border-radius:0; $card-border-radius:0;
