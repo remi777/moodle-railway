@@ -6,6 +6,10 @@ RUN git clone --depth 1 -b MOODLE_502_STABLE https://github.com/moodle/moodle.gi
  && rm -rf /var/www/html/.git \
  && chown -R www-data:www-data /var/www/html
 
+# Add the over30 child theme into the public webroot.
+COPY theme/over30 /var/www/html/public/theme/over30
+RUN chown -R www-data:www-data /var/www/html/public/theme/over30
+
 # Install and configure the runtime entrypoint
 COPY railway-entrypoint.sh /usr/local/bin/railway-entrypoint.sh
 RUN chmod +x /usr/local/bin/railway-entrypoint.sh
