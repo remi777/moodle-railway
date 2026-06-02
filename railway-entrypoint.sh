@@ -29,10 +29,17 @@ export APACHE_DOCUMENT_ROOT="${APACHE_DOCUMENT_ROOT:-/var/www/html/public}"
 # Generate config.php from environment variables when DB settings are provided.
 # The file only references getenv(), so no secrets are baked into the image and
 # the connection survives every redeploy (no install wizard reset).
-PUBLIC_DIR=/var/www/html/public
+#
+# Moodle 5.x layout: the canonical config.php lives at the project ROOT and is
+# bridged to the public/ webroot by the shipped root lib/setup.php shim. CLI
+# scripts (admin/cli) also live at the root and load the root config.php, while
+# the web entry points in public/ load public/config.php. We therefore write the
+# full config at the root and a one-line bridge inside public/.
+ROOT_DIR=/var/www/html
+PUBLIC_DIR="${ROOT_DIR}/public"
 if [ -n "${MOODLE_DB_HOST:-}" ]; then
-  echo "# Writing ${PUBLIC_DIR}/config.php from environment"
-  cat > "${PUBLIC_DIR}/config.php" <<'PHP'
+  echo "# Writing ${ROOT_DIR}/config.php from environment"
+  cat > "${ROOT_DIR}/config.php" <<'PHP'
 <?php  // Moodle config generated for Railway. Values come from environment variables.
 unset($CFG);
 global $CFG;
@@ -60,12 +67,16 @@ $CFG->sslproxy  = true;  // Railway terminates TLS in front of the container.
 
 require_once(__DIR__ . '/lib/setup.php');
 PHP
+  chown www-data:www-data "${ROOT_DIR}/config.php"
+
+  # Bridge for the public/ webroot, which loads ./config.php relative to itself.
+  echo "<?php require(__DIR__ . '/../config.php');" > "${PUBLIC_DIR}/config.php"
   chown www-data:www-data "${PUBLIC_DIR}/config.php"
 
   # Apply any pending database upgrade non-interactively (idempotent: a no-op
   # when the schema already matches the code).
   echo "# Running Moodle CLI upgrade (non-interactive)"
-  su -s /bin/sh -c "php '${PUBLIC_DIR}/admin/cli/upgrade.php' --non-interactive --allow-unstable" www-data \
+  su -s /bin/sh -c "php '${ROOT_DIR}/admin/cli/upgrade.php' --non-interactive --allow-unstable" www-data \
     || echo "WARN: CLI upgrade returned non-zero (already up to date, or DB not installed yet)"
 fi
 
