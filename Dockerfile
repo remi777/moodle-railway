@@ -1,7 +1,8 @@
 FROM moodlehq/moodle-php-apache:8.3-bookworm
 
-# Clone the Moodle 4.5 LTS stable branch (tracks latest patch releases) and remove the .git directory to reduce image size
-RUN git clone --depth 1 -b MOODLE_405_STABLE https://github.com/moodle/moodle.git /var/www/html \
+# Clone the Moodle 5.2 stable branch (tracks latest patch releases) and remove the .git directory to reduce image size.
+# Note: Moodle 5.x serves from the new public/ subdirectory; the Apache DocumentRoot is set in the entrypoint.
+RUN git clone --depth 1 -b MOODLE_502_STABLE https://github.com/moodle/moodle.git /var/www/html \
  && rm -rf /var/www/html/.git \
  && chown -R www-data:www-data /var/www/html
 
