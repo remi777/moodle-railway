@@ -414,3 +414,14 @@ body#page-my-index { background: $cream; }
     background-color: rgba($terracotta, .12) !important;
     color: $terracotta !important;
 }
+
+// =====================================================================
+//  Brand logos (SVG)
+// =====================================================================
+.o30-nav__logo { height: 30px; width: auto; display: block; }
+.o30-footer__logo { height: 40px; width: auto; display: block; margin-bottom: 1.5rem; }
+.o30-login-panel__logo {
+    width: 170px; height: 50px; margin-bottom: 1.5rem;
+    background-image: url([[pix:theme_over30|logo-light]]);
+    background-size: contain; background-repeat: no-repeat; background-position: left center;
+}
