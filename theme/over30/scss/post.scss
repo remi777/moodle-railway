@@ -468,12 +468,13 @@ body:not(#page-site-index) #page { margin-top: 0; }
 .o30-nav .editmode-switch-form, .o30-nav .form-switch { display: flex; align-items: center; gap: .4rem; white-space: nowrap; color: $espresso; }
 
 // =====================================================================
-//  Remove the brown (terracotta) frames Bootstrap/Moodle draw on focus
-//  in various places; keep a faint neutral indicator for accessibility.
+//  Remove the brown (terracotta) focus frames entirely (per request).
 // =====================================================================
-:root { --bs-focus-ring-color: rgba(42, 27, 26, .22); }
-.dropdown-item-outline:focus, .dropdown-item-outline:focus-within { outline-color: rgba(42, 27, 26, .3); }
-a:focus-visible, button:focus-visible, .btn:focus-visible, .nav-link:focus-visible { outline: 0; box-shadow: 0 0 0 .15rem rgba(42, 27, 26, .22); }
+:root { --bs-focus-ring-color: transparent; }
+a:focus, a:focus-visible, button:focus, button:focus-visible,
+.btn:focus, .btn:focus-visible, .nav-link:focus, .nav-link:focus-visible,
+.dropdown-item-outline:focus, .dropdown-item-outline:focus-within,
+[tabindex]:focus, [tabindex]:focus-visible { outline: 0 !important; box-shadow: none !important; }
 
 // --- Top bar: refined spacing/typography to match the editorial nav ---
 .o30-nav__inner { min-height: 64px; }
