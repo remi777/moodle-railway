@@ -122,27 +122,8 @@
             {{#o30}}
             <div class="o30-home">
 
-                {{! ----- over30 navigation (replaces Moodle navbar on the front page) ----- }}
-                <header class="o30-nav">
-                    <div class="o30-container o30-nav__inner">
-                        <a class="o30-nav__brand" href="{{{config.wwwroot}}}/"><img src="{{logo}}" alt="over30" class="o30-nav__logo"></a>
-                        <nav class="o30-nav__links">
-                            <a href="#kursy">Kursy</a>
-                            <a href="#dla-kogo">Dla kogo</a>
-                            <a href="#spolecznosc">Społeczność</a>
-                        </nav>
-                        <div class="o30-nav__cta">
-                            {{#loggedin}}
-                                <a class="o30-nav__login" href="{{dashboardurl}}">Kokpit</a>
-                                <a class="o30-btn o30-btn--solid" href="{{logouturl}}">Wyloguj</a>
-                            {{/loggedin}}
-                            {{^loggedin}}
-                                <a class="o30-nav__login" href="{{loginurl}}">Zaloguj</a>
-                                <a class="o30-btn o30-btn--solid" href="{{loginurl}}">Dołącz do nas</a>
-                            {{/loggedin}}
-                        </div>
-                    </div>
-                </header>
+                {{! ----- over30 navigation (shared partial; same menu everywhere) ----- }}
+                {{> theme_over30/o30nav }}
 
                 {{! ----- Hero ----- }}
                 <section class="o30-hero">

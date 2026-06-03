@@ -193,6 +193,8 @@ $templatecontext = [
     'overflow' => $overflow,
     'headercontent' => $headercontent,
     'addblockbutton' => $addblockbutton,
+    // Shared over30 top navigation.
+    'o30nav' => theme_over30_nav_context($OUTPUT),
     // over30 editorial front page data.
     'o30' => [
         'hero' => $OUTPUT->image_url('hero', 'theme_over30')->out(),

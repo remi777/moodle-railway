@@ -166,6 +166,7 @@ $templatecontext = [
     'headercontent' => $headercontent,
     'addblockbutton' => $addblockbutton,
     'o30banner' => $o30banner,
+    'o30nav' => theme_over30_nav_context($OUTPUT),
 ];
 
 echo $OUTPUT->render_from_template('theme_over30/course', $templatecontext);

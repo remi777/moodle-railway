@@ -17,6 +17,29 @@ function theme_over30_get_extra_scss($theme) {
 }
 
 /**
+ * Build the shared over30 navigation context (logo + auth-aware links).
+ * Used by the front page, dashboard and course layouts so the top menu is
+ * identical everywhere.
+ *
+ * @param renderer_base $output the page renderer (for image_url)
+ * @return array
+ */
+function theme_over30_nav_context($output) {
+    global $USER;
+    $loggedin = (isloggedin() && !isguestuser());
+    return [
+        'logo' => $output->image_url('logo', 'theme_over30')->out(false),
+        'loggedin' => $loggedin,
+        'userfirstname' => $loggedin ? format_string($USER->firstname) : '',
+        'homeurl' => (new \core\url('/'))->out(false),
+        'courselisturl' => (new \core\url('/course/'))->out(false),
+        'dashboardurl' => (new \core\url('/my/'))->out(false),
+        'loginurl' => (new \core\url('/login/index.php'))->out(false),
+        'logouturl' => (new \core\url('/login/logout.php', ['sesskey' => sesskey()]))->out(false),
+    ];
+}
+
+/**
  * Inject the over30 brand web fonts into every page head.
  * Loaded here (not via @import url() in SCSS) because scssphp tries to resolve
  * @import url(...) as a local file and fails the whole theme compilation.

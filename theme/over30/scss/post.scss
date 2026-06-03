@@ -425,3 +425,17 @@ body#page-my-index { background: $cream; }
     background-image: url([[pix:theme_over30|logo-light]]);
     background-size: contain; background-repeat: no-repeat; background-position: left center;
 }
+
+// =====================================================================
+//  Footer: front page ends on the brown over30 footer (no white trace)
+// =====================================================================
+body#page-site-index #page-content,
+body#page-site-index #page-footer { display: none !important; }
+
+// =====================================================================
+//  Unified over30 nav on inner pages (dashboard/course): same bar as the
+//  front page, but in normal flow (front keeps it fixed over the hero).
+// =====================================================================
+body:not(#page-site-index) .o30-nav { position: static; }
+body:not(#page-site-index) #page.drawers { padding-top: 0; }
+body:not(#page-site-index) #page { margin-top: 0; }

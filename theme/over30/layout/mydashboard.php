@@ -125,6 +125,7 @@ $templatecontext = [
     // over30 editorial dashboard heading (mockup "Twoje Studio").
     'o30dashboardheading' => get_string('o30dashboardheading', 'theme_over30'),
     'o30dashboardsubtitle' => get_string('o30dashboardsubtitle', 'theme_over30'),
+    'o30nav' => theme_over30_nav_context($OUTPUT),
 ];
 
 echo $OUTPUT->render_from_template('theme_over30/mydashboard', $templatecontext);

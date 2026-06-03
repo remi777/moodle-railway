@@ -1,0 +1,25 @@
+{{!
+    over30 shared top navigation (logo + auth-aware links). Identical on the
+    front page, dashboard and course pages. Context: see theme_over30_nav_context().
+}}
+{{#o30nav}}
+<header class="o30-nav">
+    <div class="o30-container o30-nav__inner">
+        <a class="o30-nav__brand" href="{{homeurl}}"><img src="{{logo}}" alt="over30" class="o30-nav__logo"></a>
+        <nav class="o30-nav__links">
+            <a href="{{homeurl}}">Strona główna</a>
+            <a href="{{courselisturl}}">Kursy</a>
+        </nav>
+        <div class="o30-nav__cta">
+            {{#loggedin}}
+                <a class="o30-nav__login" href="{{dashboardurl}}">Kokpit</a>
+                <a class="o30-btn o30-btn--solid" href="{{logouturl}}">Wyloguj</a>
+            {{/loggedin}}
+            {{^loggedin}}
+                <a class="o30-nav__login" href="{{loginurl}}">Zaloguj</a>
+                <a class="o30-btn o30-btn--solid" href="{{loginurl}}">Dołącz do nas</a>
+            {{/loggedin}}
+        </div>
+    </div>
+</header>
+{{/o30nav}}
