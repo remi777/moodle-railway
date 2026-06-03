@@ -1,22 +1,32 @@
 {{!
     over30 shared top navigation — identical on EVERY page.
 
-    Self-sufficient: uses only globally-available template data (config.wwwroot
-    for links, the standard navbar `usermenu` for the avatar/profile dropdown,
-    and a CSS background logo) so it can be used both directly by the custom
-    layouts and as a global override of theme_boost/navbar.
+    Renders the SAME functional pieces as theme_boost/navbar (primary navigation
+    incl. Site administration, edit-mode switch, notifications/messages popovers,
+    language menu and the user menu) inside the over30 shell + styling. All data
+    comes from the standard navbar context, so this works both as the global
+    theme_boost/navbar override and when included directly by the custom layouts.
 }}
-<header class="o30-nav">
+<header class="o30-nav navbar-expand">
     <div class="o30-container o30-nav__inner">
         <a class="o30-nav__brand" href="{{{ config.wwwroot }}}/" aria-label="over30">
             <span class="o30-nav__logoimg" role="img" aria-label="over30"></span>
         </a>
-        <nav class="o30-nav__links">
-            <a href="{{{ config.wwwroot }}}/">Strona główna</a>
-            <a href="{{{ config.wwwroot }}}/course/">Kursy</a>
-            <a href="{{{ config.wwwroot }}}/my/">Kokpit</a>
-        </nav>
-        <div class="o30-nav__cta">
+
+        {{#primarymoremenu}}
+            <div class="o30-nav__primary primary-navigation">
+                {{> core/moremenu}}
+            </div>
+        {{/primarymoremenu}}
+
+        <div class="o30-nav__cta navbar-nav ms-auto">
+            {{#langmenu}}
+                {{> theme_boost/language_menu }}
+            {{/langmenu}}
+            {{{ output.edit_switch }}}
+            {{# output.navbar_plugin_output }}
+                {{{ . }}}
+            {{/ output.navbar_plugin_output }}
             {{#usermenu}}
                 <div class="usermenu-container o30-nav__user" data-region="usermenu">
                     {{> core/user_menu }}
