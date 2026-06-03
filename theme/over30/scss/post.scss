@@ -42,8 +42,7 @@ h1,h2,h3,.h1,.h2,.h3{font-family:'Cormorant Garamond',Georgia,serif;letter-spaci
 // =====================================================================
 
 // The over30 sections are full-bleed; cancel Moodle's main padding around them.
-.o30-home{margin-left:calc(-1 * var(--bs-gutter-x, .75rem));margin-right:calc(-1 * var(--bs-gutter-x, .75rem));}
-#page.drawers .main-inner:has(.o30-home){padding:0;}
+.o30-home{margin:0;}
 .o30-home em{font-style:italic;font-weight:300;color:$terracotta;}
 
 // ---------- Hero ----------
@@ -190,20 +189,24 @@ h1,h2,h3,.h1,.h2,.h3{font-family:'Cormorant Garamond',Georgia,serif;letter-spaci
 #page-header h1, .page-header-headings h1 { font-family:'Cormorant Garamond',Georgia,serif; font-size:clamp(2rem,4vw,3.25rem); line-height:1.05; margin-top:.25rem; }
 
 // ---------- Login ----------
-.o30-login{display:grid;grid-template-columns:1fr;min-height:70vh;}
-.o30-login__brand{display:none;flex-direction:column;justify-content:center;padding:4rem;}
-.o30-login__head{font-size:clamp(2rem,4vw,3.25rem);line-height:1.05;margin-top:1rem;}
-.o30-login__head em{font-style:italic;font-weight:300;color:#e0a899;}
-.o30-login__form{display:flex;flex-direction:column;justify-content:center;padding:2.5rem;background:#fdfbf7;}
-@media(min-width:992px){.o30-login{grid-template-columns:1fr 1fr;}.o30-login__brand{display:flex;}}
+// (Login styling lives in the "Login: over30 brand panel" block below; Boost's
+//  core/login_layout already provides the split, we override core/login_panel.)
 
 // =====================================================================
 //  Front-page: full-bleed + over30 nav (replaces Moodle chrome)
 // =====================================================================
 html, body { overflow-x: hidden; }
 
-// Break the over30 home out of Moodle's constrained content column to full viewport width.
-.o30-home { position: relative; width: 100vw; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; }
+// Make the front page genuinely full width by neutralizing every Moodle wrapper
+// (max-width/padding/margin) rather than a viewport breakout (which over-shifts
+// because the wrappers don't start at the viewport edge).
+.o30-home { width: 100%; margin: 0; left: auto; right: auto; }
+body#page-site-index #page,
+body#page-site-index #page-content,
+body#page-site-index #region-main-box,
+body#page-site-index #region-main,
+body#page-site-index .main-inner,
+body#page-site-index [role="main"] { max-width: none !important; width: 100% !important; margin: 0 !important; padding: 0 !important; border: 0 !important; }
 
 // On the front page, hide Moodle's own navbar / drawer toggles / page header / secondary nav.
 body#page-site-index nav.navbar,
@@ -211,8 +214,6 @@ body#page-site-index .drawer-toggles,
 body#page-site-index #page-header,
 body#page-site-index .secondary-navigation { display: none !important; }
 body#page-site-index #page { margin-top: 0 !important; padding-top: 0 !important; }
-body#page-site-index .main-inner, body#page-site-index #region-main { padding: 0 !important; border: 0 !important; }
-body#page-site-index #topofscroll { margin: 0 !important; }
 
 // over30 fixed navigation
 .o30-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1050; background: rgba($cream, .9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba($espresso, .08); }
@@ -230,11 +231,17 @@ body#page-site-index #topofscroll { margin: 0 !important; }
 .o30-hero { padding-top: 9rem; }
 
 // =====================================================================
-//  Login: over30 brand image on the left panel
+//  Login: over30 brand panel (overrides Boost's "Welcome to Moodle" left side)
 // =====================================================================
-body.pagelayout-login #page, body#page-login-index #page { background: $cream; }
-.o30-login__brand {
-    background-color: $espresso;
-    background-image: linear-gradient(rgba(42,27,26,.72), rgba(42,27,26,.82)), url([[pix:theme_over30|desk]]);
-    background-size: cover; background-position: center;
+.login-layout-left {
+    background-color: $espresso !important;
+    background-image: linear-gradient(rgba(42,27,26,.72), rgba(42,27,26,.82)), url([[pix:theme_over30|desk]]) !important;
+    background-size: cover !important;
+    background-position: center !important;
+    color: #fff;
 }
+.o30-login-panel { display: flex; flex-direction: column; justify-content: center; padding: 4rem; color: #fff; height: 100%; }
+.o30-login-panel .o30-label { color: $blush; }
+.o30-login-panel__title { font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.05; margin-top: 1rem; color: #fff; }
+.o30-login-panel__title em { font-style: italic; font-weight: 300; color: $blush; }
+.o30-login-panel__sub { margin-top: 1.5rem; color: rgba(255,255,255,.75); font-weight: 300; }
