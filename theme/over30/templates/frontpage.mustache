@@ -122,6 +122,22 @@
             {{#o30}}
             <div class="o30-home">
 
+                {{! ----- over30 navigation (replaces Moodle navbar on the front page) ----- }}
+                <header class="o30-nav">
+                    <div class="o30-container o30-nav__inner">
+                        <a class="o30-nav__brand o30-serif" href="{{{config.wwwroot}}}/">over<span class="o30-nav__dot">30</span>.</a>
+                        <nav class="o30-nav__links">
+                            <a href="#kursy">Kursy</a>
+                            <a href="#dla-kogo">Dla kogo</a>
+                            <a href="#spolecznosc">Społeczność</a>
+                        </nav>
+                        <div class="o30-nav__cta">
+                            <a class="o30-nav__login" href="{{{config.wwwroot}}}/login/index.php">Zaloguj</a>
+                            <a class="o30-btn o30-btn--solid" href="{{{config.wwwroot}}}/login/index.php">Dołącz do nas</a>
+                        </div>
+                    </div>
+                </header>
+
                 {{! ----- Hero ----- }}
                 <section class="o30-hero">
                     <div class="o30-hero__bg" aria-hidden="true"></div>
