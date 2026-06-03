@@ -444,3 +444,7 @@ body:not(#page-site-index) #page { margin-top: 0; }
 .o30-nav__user { display: flex; align-items: center; }
 .o30-nav__user .dropdown-toggle, .o30-nav__user a, .o30-nav__user .usertext { color: $espresso; }
 .o30-nav__user .userpicture { border-radius: 50%; }
+
+// over30 nav: CSS background logo (works in the global navbar override where no
+// image URL is passed into the template).
+.o30-nav__logoimg { display: block; width: 96px; height: 30px; background: url([[pix:theme_over30|logo]]) left center / contain no-repeat; }

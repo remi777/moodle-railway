@@ -1,29 +1,27 @@
 {{!
-    over30 shared top navigation (logo + auth-aware links). Identical on the
-    front page, dashboard and course pages. Context: see theme_over30_nav_context().
+    over30 shared top navigation — identical on EVERY page.
+
+    Self-sufficient: uses only globally-available template data (config.wwwroot
+    for links, the standard navbar `usermenu` for the avatar/profile dropdown,
+    and a CSS background logo) so it can be used both directly by the custom
+    layouts and as a global override of theme_boost/navbar.
 }}
-{{#o30nav}}
 <header class="o30-nav">
     <div class="o30-container o30-nav__inner">
-        <a class="o30-nav__brand" href="{{homeurl}}"><img src="{{logo}}" alt="over30" class="o30-nav__logo"></a>
+        <a class="o30-nav__brand" href="{{{ config.wwwroot }}}/" aria-label="over30">
+            <span class="o30-nav__logoimg" role="img" aria-label="over30"></span>
+        </a>
         <nav class="o30-nav__links">
-            <a href="{{homeurl}}">Strona główna</a>
-            <a href="{{courselisturl}}">Kursy</a>
+            <a href="{{{ config.wwwroot }}}/">Strona główna</a>
+            <a href="{{{ config.wwwroot }}}/course/">Kursy</a>
+            <a href="{{{ config.wwwroot }}}/my/">Kokpit</a>
         </nav>
         <div class="o30-nav__cta">
-            {{#loggedin}}
-                <a class="o30-nav__login" href="{{dashboardurl}}">Kokpit</a>
-                {{#usermenu}}
-                    <div class="d-flex align-items-stretch usermenu-container o30-nav__user" data-region="usermenu">
-                        {{> core/user_menu }}
-                    </div>
-                {{/usermenu}}
-            {{/loggedin}}
-            {{^loggedin}}
-                <a class="o30-nav__login" href="{{loginurl}}">Zaloguj</a>
-                <a class="o30-btn o30-btn--solid" href="{{loginurl}}">Dołącz do nas</a>
-            {{/loggedin}}
+            {{#usermenu}}
+                <div class="usermenu-container o30-nav__user" data-region="usermenu">
+                    {{> core/user_menu }}
+                </div>
+            {{/usermenu}}
         </div>
     </div>
 </header>
-{{/o30nav}}
