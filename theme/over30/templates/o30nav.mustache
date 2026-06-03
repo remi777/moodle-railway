@@ -13,7 +13,11 @@
         <div class="o30-nav__cta">
             {{#loggedin}}
                 <a class="o30-nav__login" href="{{dashboardurl}}">Kokpit</a>
-                <a class="o30-btn o30-btn--solid" href="{{logouturl}}">Wyloguj</a>
+                {{#usermenu}}
+                    <div class="d-flex align-items-stretch usermenu-container o30-nav__user" data-region="usermenu">
+                        {{> core/user_menu }}
+                    </div>
+                {{/usermenu}}
             {{/loggedin}}
             {{^loggedin}}
                 <a class="o30-nav__login" href="{{loginurl}}">Zaloguj</a>

@@ -439,3 +439,8 @@ body#page-site-index #page-footer { display: none !important; }
 body:not(#page-site-index) .o30-nav { position: static; }
 body:not(#page-site-index) #page.drawers { padding-top: 0; }
 body:not(#page-site-index) #page { margin-top: 0; }
+
+// User menu inside the over30 nav
+.o30-nav__user { display: flex; align-items: center; }
+.o30-nav__user .dropdown-toggle, .o30-nav__user a, .o30-nav__user .usertext { color: $espresso; }
+.o30-nav__user .userpicture { border-radius: 50%; }
