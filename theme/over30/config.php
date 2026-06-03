@@ -26,3 +26,11 @@ $THEME->layouts['mydashboard'] = [
     'defaultregion' => 'side-pre',
     'options' => ['nonavbar' => true, 'langmenu' => true],
 ];
+// Course view — editorial banner over Boost's drawers layout. Regions/options
+// copied verbatim from Boost's 'course' layout so all wiring is preserved.
+$THEME->layouts['course'] = [
+    'file' => 'course.php',
+    'regions' => ['side-pre'],
+    'defaultregion' => 'side-pre',
+    'options' => ['langmenu' => true],
+];

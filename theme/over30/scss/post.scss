@@ -308,3 +308,109 @@ body#page-my-index { background: $cream; }
 .o30-dashcard:hover .o30-dashcard__cta, .o30-dashcard__cta:hover { color: $terracotta; }
 .o30-dashcard__cta .o30-arrow { transition: transform .3s $ease; }
 .o30-dashcard:hover .o30-dashcard__cta .o30-arrow, .o30-dashcard__cta:hover .o30-arrow { transform: translateX(4px); }
+
+// =====================================================================
+// COURSE VIEW — editorial reproduction of the mockup CourseView.
+// Part A: SCSS styling of native topics-format markup.
+// Part C: the .o30-coursebanner editorial banner (rendered by layout/course.php).
+// =====================================================================
+
+// --- Editorial banner (full-bleed image + espresso gradient overlay) -------
+.o30-coursebanner {
+    position: relative;
+    width: 100%;
+    min-height: 38vh;
+    overflow: hidden;
+    background: $espresso;
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 2.5rem;
+}
+@media (min-width: 768px) { .o30-coursebanner { min-height: 46vh; } }
+.o30-coursebanner__img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: .4; mix-blend-mode: luminosity;
+}
+.o30-coursebanner__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, $espresso 0%, rgba($espresso, .2) 70%, transparent 100%);
+}
+.o30-coursebanner__inner {
+    position: relative; z-index: 2;
+    max-width: 1200px; width: 100%; margin: 0 auto;
+    padding: 1.5rem; color: #fff;
+}
+@media (min-width: 768px) { .o30-coursebanner__inner { padding: 3rem; } }
+.o30-coursebanner__crumb {
+    display: flex; align-items: center; gap: .5rem;
+    text-transform: uppercase; letter-spacing: .2em; font-size: 11px;
+    font-weight: 500; color: rgba(255,255,255,.5); margin-bottom: 1.25rem;
+}
+.o30-coursebanner__crumb .sep { opacity: .6; }
+.o30-coursebanner__crumb .cat { color: rgba(255,255,255,.9); }
+.o30-coursebanner__title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 500; line-height: 1.1; color: #fff;
+    font-size: 2.5rem; margin: 0;
+}
+@media (min-width: 768px) { .o30-coursebanner__title { font-size: 3.75rem; } }
+
+// --- Section headings (serif espresso) -------------------------------------
+.course-content .sectionname,
+.course-content h2.sectionname,
+.course-content h3.sectionname,
+.course-content h4.sectionname {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.75rem;
+    font-weight: 500;
+    letter-spacing: -.01em;
+    color: $espresso;
+}
+
+// --- Section wrapper: white card, square, subtle border ---------------------
+.course-content .course-section,
+.course-content li.section {
+    background: #fff;
+    border: 1px solid rgba($espresso, .1);
+    border-radius: 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,.04);
+}
+
+// Section summaries muted.
+.course-content .section_availability,
+.course-content .summarytext,
+.course-content .course-section .summary {
+    color: rgba($espresso, .6);
+    font-weight: 300;
+}
+
+// --- Activity items: square, brand border, hover shadow --------------------
+.course-content .activity-item,
+.activity-item {
+    border-radius: 0;
+    border-color: rgba($espresso, .1);
+    transition: box-shadow .3s $ease;
+}
+.course-content .activity-item:hover,
+.activity-item:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,.05);
+}
+.activity-item:hover .activityname a,
+.activity-item:hover .instancename { color: $terracotta; }
+
+// Activity icon circle nudged toward the mockup's circular status icons.
+.course-content .activityiconcontainer {
+    border-radius: 50%;
+    background: rgba($espresso, .04);
+}
+
+// Completion ticks toward terracotta where feasible.
+.course-content .completion-dropdown .btn.btn-success,
+.course-content .activity-item .completion-icon .text-success,
+.course-content .badge.bg-success {
+    color: $terracotta !important;
+}
+.course-content .activity-item .badge.bg-success {
+    background-color: rgba($terracotta, .12) !important;
+    color: $terracotta !important;
+}
