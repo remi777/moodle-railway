@@ -132,8 +132,14 @@
                             <a href="#spolecznosc">Społeczność</a>
                         </nav>
                         <div class="o30-nav__cta">
-                            <a class="o30-nav__login" href="{{{config.wwwroot}}}/login/index.php">Zaloguj</a>
-                            <a class="o30-btn o30-btn--solid" href="{{{config.wwwroot}}}/login/index.php">Dołącz do nas</a>
+                            {{#loggedin}}
+                                <a class="o30-nav__login" href="{{dashboardurl}}">Kokpit</a>
+                                <a class="o30-btn o30-btn--solid" href="{{logouturl}}">Wyloguj</a>
+                            {{/loggedin}}
+                            {{^loggedin}}
+                                <a class="o30-nav__login" href="{{loginurl}}">Zaloguj</a>
+                                <a class="o30-btn o30-btn--solid" href="{{loginurl}}">Dołącz do nas</a>
+                            {{/loggedin}}
                         </div>
                     </div>
                 </header>
@@ -211,17 +217,17 @@
                                 <span class="o30-label">Kolekcja</span>
                                 <h2 class="o30-serif o30-courses__title">Programy <em>Autorskie</em></h2>
                             </div>
-                            <a href="#kursy" class="o30-courses__more o30-reveal">
+                            <a href="{{courselisturl}}" class="o30-courses__more o30-reveal">
                                 <span>Zobacz pełną ofertę</span>
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                             </a>
                         </div>
                         <div class="o30-coursegrid">
                             {{#courses}}
-                            <a href="#kursy" class="o30-card o30-reveal">
+                            <a href="{{url}}" class="o30-card o30-reveal">
                                 <div class="o30-card__media">
                                     <img src="{{img}}" alt="{{title}}" class="o30-card__img">
-                                    <span class="o30-card__badge">{{cat}}</span>
+                                    {{#cat}}<span class="o30-card__badge">{{cat}}</span>{{/cat}}
                                 </div>
                                 <h3 class="o30-serif o30-card__title">{{title}}</h3>
                                 <div class="o30-card__foot">

@@ -101,35 +101,55 @@ $courseurl = $PAGE->course ? new \core\url('/course/view.php', ['id' => $PAGE->c
 
 // over30 editorial section data ------------------------------------------------.
 
-// Authored programmes (dark "Programy Autorskie" grid). Titles / categories /
-// instructors mirror INITIAL_COURSES from the mockup; images are the bundled
-// course-1..4 portraits.
-$courses = [
-    [
-        'cat' => 'KARIERA',
-        'title' => 'Strategiczny Pivot Kariery',
-        'instructor' => 'Elena Rostova',
-        'img' => $OUTPUT->image_url('course-1', 'theme_over30')->out(),
-    ],
-    [
-        'cat' => 'LEADERSHIP',
-        'title' => 'Sztuka Prezentacji: Komunikacja Liderska',
-        'instructor' => 'Sarah Jenkins',
-        'img' => $OUTPUT->image_url('course-2', 'theme_over30')->out(),
-    ],
-    [
-        'cat' => 'FINANSE',
-        'title' => 'Finansowa Niezależność: Więcej Niż Budżet',
-        'instructor' => 'Amanda Chen',
-        'img' => $OUTPUT->image_url('course-3', 'theme_over30')->out(),
-    ],
-    [
-        'cat' => 'BRANDING',
-        'title' => 'Marka Osobista w Erze Cyfrowej',
-        'instructor' => 'Marcus Wright',
-        'img' => $OUTPUT->image_url('course-4', 'theme_over30')->out(),
-    ],
+// Authored programmes (dark "Programy Autorskie" grid) — REAL visible courses
+// from the database. Falls back to bundled portrait images when a course has no
+// image of its own.
+$fallbackimgs = [
+    $OUTPUT->image_url('course-1', 'theme_over30')->out(),
+    $OUTPUT->image_url('course-2', 'theme_over30')->out(),
+    $OUTPUT->image_url('course-3', 'theme_over30')->out(),
+    $OUTPUT->image_url('course-4', 'theme_over30')->out(),
 ];
+$courses = [];
+try {
+    $i = 0;
+    foreach (get_courses('all', 'c.sortorder ASC', 'c.id, c.fullname, c.category, c.visible') as $c) {
+        if ($c->id == SITEID || empty($c->visible)) {
+            continue;
+        }
+        $catname = '';
+        try {
+            $cat = core_course_category::get($c->category, IGNORE_MISSING, true);
+            $catname = $cat ? $cat->get_formatted_name() : '';
+        } catch (Throwable $e) {
+            $catname = '';
+        }
+        $img = '';
+        try {
+            $fullcourse = get_course($c->id);
+            $img = \core_course\external\course_summary_exporter::get_course_image($fullcourse) ?: '';
+        } catch (Throwable $e) {
+            $img = '';
+        }
+        if (!$img) {
+            $img = $fallbackimgs[$i % count($fallbackimgs)];
+        }
+        $courses[] = [
+            'cat' => core_text::strtoupper($catname),
+            'title' => format_string($c->fullname),
+            'instructor' => '',
+            'img' => $img,
+            'url' => (new \core\url('/course/view.php', ['id' => $c->id]))->out(false),
+        ];
+        $i++;
+        if ($i >= 8) {
+            break;
+        }
+    }
+} catch (Throwable $e) {
+    $courses = [];
+}
+$hascourses = !empty($courses);
 
 $features = [
     ['number' => '01', 'title' => 'Wiedza Ekspercka', 'desc' => 'Wyselekcjonowane programy tworzone przez praktyków. Bez lania wody, same konkrety.'],
@@ -179,10 +199,18 @@ $templatecontext = [
         'desk' => $OUTPUT->image_url('desk', 'theme_over30')->out(),
         'cta' => $OUTPUT->image_url('course-cta', 'theme_over30')->out(),
         'courses' => $courses,
+        'hascourses' => $hascourses,
         'features' => $features,
         'audience' => $audience,
         'testimonials' => $testimonials,
         'year' => date('Y'),
+        // Auth-aware navigation.
+        'loggedin' => (isloggedin() && !isguestuser()),
+        'userfirstname' => (isloggedin() && !isguestuser()) ? format_string($USER->firstname) : '',
+        'dashboardurl' => (new \core\url('/my/'))->out(false),
+        'courselisturl' => (new \core\url('/course/'))->out(false),
+        'loginurl' => (new \core\url('/login/index.php'))->out(false),
+        'logouturl' => (new \core\url('/login/logout.php', ['sesskey' => sesskey()]))->out(false),
     ],
 ];
 
