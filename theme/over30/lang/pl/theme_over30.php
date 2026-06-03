@@ -9,3 +9,5 @@ $string['rawscss_desc'] = 'Dodatkowy SCSS dołączany po stylach motywu. Do szyb
 $string['logo'] = 'Logo';
 $string['region-side-pre'] = 'Prawa';
 $string['privacy:metadata'] = 'Motyw over30 nie przechowuje żadnych danych osobowych.';
+$string['o30dashboardheading'] = 'Twoje Studio';
+$string['o30dashboardsubtitle'] = 'Kontynuuj swój rozwój';

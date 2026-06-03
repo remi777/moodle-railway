@@ -1,0 +1,125 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template block_myoverview/view-cards
+
+    over30 editorial override of the My-overview cards view.
+
+    Reproduces the over30 mockup DashboardView course card: a 4/3 image with a
+    bottom terracotta progress bar, a terracotta uppercase category, a serif
+    title linked to the course, and a footer with "{progress}% ukończono" /
+    "Nie rozpoczęto" plus a "Kontynuuj" / "Zacznij" call to action.
+
+    All Moodle data bindings (viewurl, courseimage, fullname, coursecategory,
+    hasprogress, progress, visible, the action menu and favourite icon) are
+    preserved.
+
+    Example context (json):
+    {
+        "courses": [
+            {
+                "id": 2,
+                "name": "Assignment due 1",
+                "viewurl": "https://moodlesite/course/view.php?id=2",
+                "courseimage": "https://moodlesite/pluginfile/123/course/overviewfiles/123.jpg",
+                "fullname": "Course 3 for \"Statistical and Computational Tools\" ",
+                "hasprogress": true,
+                "progress": 10,
+                "coursecategory": "Category 1",
+                "showcoursecategory": true,
+                "visible": true
+            }
+        ]
+    }
+}}
+
+<div class="o30-dashgrid card-grid mx-0 row row-cols-1 row-cols-md-2 row-cols-lg-3 {{$classes}}{{/classes}}"
+    data-region="card-deck" role="list">
+{{#courses}}
+    <div class="col d-flex px-0">
+        <div class="o30-dashcard card course-card" role="listitem"
+            data-region="course-content"
+            data-course-id="{{{id}}}">
+
+            <a class="o30-dashcard__media" href="{{viewurl}}" tabindex="-1">
+                <div class="o30-dashcard__img" style='background-image: url("{{{courseimage}}}");'>
+                    <span class="visually-hidden">{{{fullname}}}</span>
+                </div>
+                {{#hasprogress}}
+                    <div class="o30-dashcard__progress" role="progressbar"
+                        aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100">
+                        <div class="o30-dashcard__progress-fill" style="width: {{progress}}%;"></div>
+                    </div>
+                {{/hasprogress}}
+            </a>
+
+            <div class="o30-dashcard__body card-body course-info-container"
+                id="course-info-container-{{id}}-{{uniqid}}">
+
+                <div class="o30-dashcard__top">
+                    {{#showcoursecategory}}
+                        <span class="visually-hidden">
+                            {{#str}}aria:coursecategory, core_course{{/str}}
+                        </span>
+                        <span class="o30-dashcard__cat categoryname">{{{coursecategory}}}</span>
+                    {{/showcoursecategory}}
+                    <span class="o30-dashcard__menu">{{> block_myoverview/course-action-menu }}</span>
+                </div>
+
+                <a href="{{viewurl}}" class="o30-dashcard__title aalink coursename">
+                    {{> core_course/favouriteicon }}
+                    <span class="visually-hidden">
+                        {{#str}}aria:coursename, core_course{{/str}}
+                    </span>
+                    <span class="multiline" title="{{fullname}}">{{{fullname}}}</span>
+                </a>
+
+                {{^visible}}
+                    <div class="d-flex flex-wrap mt-1">
+                        <span class="badge bg-info text-white">{{#str}} hiddenfromstudents {{/str}}</span>
+                    </div>
+                {{/visible}}
+
+                <div class="o30-dashcard__footer">
+                    <span class="o30-dashcard__status">
+                        {{#hasprogress}}
+                            {{#progress}}
+                                {{#str}}completepercent, block_myoverview, <span>{{progress}}</span>{{/str}}
+                            {{/progress}}
+                            {{^progress}}
+                                Nie rozpoczęto
+                            {{/progress}}
+                        {{/hasprogress}}
+                        {{^hasprogress}}
+                            Nie rozpoczęto
+                        {{/hasprogress}}
+                    </span>
+                    <a href="{{viewurl}}" class="o30-dashcard__cta">
+                        <span>{{#progress}}Kontynuuj{{/progress}}{{^progress}}Zacznij{{/progress}}</span>
+                        <svg class="o30-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" aria-hidden="true">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{{/courses}}
+</div>

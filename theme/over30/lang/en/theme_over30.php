@@ -9,3 +9,5 @@ $string['rawscss_desc'] = 'Extra SCSS appended after the theme styles. Use for q
 $string['logo'] = 'Logo';
 $string['region-side-pre'] = 'Right';
 $string['privacy:metadata'] = 'The over30 theme does not store any personal data.';
+$string['o30dashboardheading'] = 'Twoje Studio';
+$string['o30dashboardsubtitle'] = 'Kontynuuj swój rozwój';

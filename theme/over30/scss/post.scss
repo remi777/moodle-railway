@@ -245,3 +245,66 @@ body#page-site-index #page { margin-top: 0 !important; padding-top: 0 !important
 .o30-login-panel__title { font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.05; margin-top: 1rem; color: #fff; }
 .o30-login-panel__title em { font-style: italic; font-weight: 300; color: $blush; }
 .o30-login-panel__sub { margin-top: 1.5rem; color: rgba(255,255,255,.75); font-weight: 300; }
+
+// =====================================================================
+//  DASHBOARD (/my) — over30 "Twoje Studio" (mockup DashboardView)
+// =====================================================================
+
+// The /my page sits on the calm cream background.
+body#page-my-index #page,
+body#page-my-index { background: $cream; }
+
+// Editorial heading above the course cards.
+.o30-studio { margin: 1rem 0 3rem; }
+.o30-studio__title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: clamp(2.25rem, 4vw, 2.75rem); line-height: 1.1; color: $espresso; margin: 0 0 .5rem; }
+.o30-studio__sub { color: rgba($espresso, .6); font-weight: 300; font-size: 1.05rem; margin: 0; }
+
+// ---------- Course cards ----------
+.o30-dashgrid { gap: 2rem 0; }
+.o30-dashgrid > .col { padding-left: 1rem; padding-right: 1rem; }
+
+.o30-dashcard {
+    display: flex; flex-direction: column; height: 100%; width: 100%;
+    background: #fff; border: 1px solid rgba($espresso, .05); border-radius: 0;
+    box-shadow: none; overflow: hidden;
+    transition: border-color .5s $ease, box-shadow .5s $ease;
+}
+.o30-dashcard:hover { border-color: rgba($espresso, .2); box-shadow: 0 20px 40px -20px rgba(0,0,0,.18); }
+
+// 4/3 image area.
+.o30-dashcard__media { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; background: $sand; }
+.o30-dashcard__media::before { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.10); z-index: 1; transition: background-color .5s $ease; }
+.o30-dashcard:hover .o30-dashcard__media::before { background: rgba(0,0,0,0); }
+.o30-dashcard__img { position: absolute; inset: 0; background-size: cover; background-position: center; transform: scale(1); transition: transform 1s $ease; }
+.o30-dashcard:hover .o30-dashcard__img { transform: scale(1.05); }
+
+// Bottom progress bar (terracotta over translucent track).
+.o30-dashcard__progress { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(255,255,255,.3); z-index: 2; }
+.o30-dashcard__progress-fill { height: 100%; background: $terracotta; }
+
+// Body.
+.o30-dashcard__body { display: flex; flex-direction: column; flex: 1 1 auto; padding: 2rem; background: #fff; }
+.o30-dashcard__top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; min-height: 1rem; }
+.o30-dashcard__cat { color: $terracotta; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; }
+.o30-dashcard__menu { margin-left: auto; }
+.o30-dashcard__menu .btn { padding: 0; color: rgba($espresso, .35); }
+
+.o30-dashcard__title {
+    display: block; font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.6rem; line-height: 1.25; color: $espresso; text-decoration: none;
+    margin-bottom: 1.75rem; transition: color .3s $ease;
+}
+.o30-dashcard__title:hover, .o30-dashcard:hover .o30-dashcard__title { color: $terracotta; }
+.o30-dashcard__title .multiline { display: block; }
+
+// Footer pinned to bottom.
+.o30-dashcard__footer { margin-top: auto; display: flex; justify-content: space-between; align-items: center; }
+.o30-dashcard__status { font-size: 12px; font-weight: 500; color: rgba($espresso, .4); }
+.o30-dashcard__cta {
+    display: inline-flex; align-items: center; gap: .5rem; text-decoration: none;
+    font-size: 11px; text-transform: uppercase; letter-spacing: .1em; font-weight: 600;
+    color: $espresso; transition: color .3s $ease;
+}
+.o30-dashcard:hover .o30-dashcard__cta, .o30-dashcard__cta:hover { color: $terracotta; }
+.o30-dashcard__cta .o30-arrow { transition: transform .3s $ease; }
+.o30-dashcard:hover .o30-dashcard__cta .o30-arrow, .o30-dashcard__cta:hover .o30-arrow { transform: translateX(4px); }

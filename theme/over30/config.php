@@ -18,3 +18,11 @@ $THEME->layouts['frontpage'] = [
     'defaultregion' => 'side-pre',
     'options' => ['nonavbar' => true],
 ];
+// Dashboard (/my) — over30 "Twoje Studio". Regions/options copied from Boost's
+// mydashboard layout so all wiring is preserved.
+$THEME->layouts['mydashboard'] = [
+    'file' => 'mydashboard.php',
+    'regions' => ['side-pre'],
+    'defaultregion' => 'side-pre',
+    'options' => ['nonavbar' => true, 'langmenu' => true],
+];
