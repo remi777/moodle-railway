@@ -466,3 +466,21 @@ body:not(#page-site-index) #page { margin-top: 0; }
 .o30-nav__cta .icon { color: inherit; }
 // Edit-mode switch label readable on cream
 .o30-nav .editmode-switch-form, .o30-nav .form-switch { display: flex; align-items: center; gap: .4rem; white-space: nowrap; color: $espresso; }
+
+// =====================================================================
+//  Remove the brown (terracotta) frames Bootstrap/Moodle draw on focus
+//  in various places; keep a faint neutral indicator for accessibility.
+// =====================================================================
+:root { --bs-focus-ring-color: rgba(42, 27, 26, .22); }
+.dropdown-item-outline:focus, .dropdown-item-outline:focus-within { outline-color: rgba(42, 27, 26, .3); }
+a:focus-visible, button:focus-visible, .btn:focus-visible, .nav-link:focus-visible { outline: 0; box-shadow: 0 0 0 .15rem rgba(42, 27, 26, .22); }
+
+// --- Top bar: refined spacing/typography to match the editorial nav ---
+.o30-nav__inner { min-height: 64px; }
+.o30-nav__primary { margin-left: 1.5rem; }
+.o30-nav__primary .nav, .o30-nav__primary ul.more-nav { gap: 0; align-items: center; flex-wrap: nowrap; }
+.o30-nav__primary .nav-link { padding: .5rem 1.1rem; font-size: 12px; letter-spacing: .14em; color: rgba(42, 27, 26, .75); }
+.o30-nav__primary .nav-link:hover { color: #b35041; }
+.o30-nav__primary .nav-link.active, .o30-nav__primary .nav-link[aria-current="true"] { color: #b35041; }
+.o30-nav__cta { gap: .75rem; }
+.o30-nav__cta .icon { width: 18px; height: 18px; font-size: 18px; }

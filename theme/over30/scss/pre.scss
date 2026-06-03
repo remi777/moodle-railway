@@ -7,3 +7,6 @@ $font-family-sans-serif:'Plus Jakarta Sans',system-ui,sans-serif;
 $headings-font-family:'Cormorant Garamond',Georgia,serif; $headings-font-weight:500; $headings-line-height:1.05;
 $container-max-widths:(sm:540px,md:720px,lg:960px,xl:1140px,xxl:1400px);
 $btn-border-radius:0; $card-border-radius:0;
+// Neutral, subtle focus ring (Bootstrap default tied it to $primary = terracotta,
+// which drew brown frames everywhere). Keep a faint accessible indicator instead.
+$focus-ring-width:.15rem; $focus-ring-opacity:.35; $focus-ring-color:rgba($o30-espresso,.25);
