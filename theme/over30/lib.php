@@ -64,5 +64,10 @@ function theme_over30_before_standard_html_head() {
     } catch (Throwable $e) {
         // If image URLs can't be built this early, skip favicons (fonts still load).
     }
+    // The "Administracja" nav link is in the markup for everyone but hidden by
+    // default; reveal it only for site admins (works on every page/layout).
+    if (is_siteadmin()) {
+        $head .= '<style>.o30-nav__admin{display:inline-block !important;}</style>';
+    }
     return $head;
 }
