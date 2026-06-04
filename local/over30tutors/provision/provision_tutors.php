@@ -1,8 +1,10 @@
 <?php
 // Idempotentny provisioning strony tutora: pola profilu + cohorta.
-// Uruchom w kontenerze: su -s /bin/sh -c 'php /tmp/provision_tutors.php' www-data
+// Uruchom W MIEJSCU instalacji (ścieżka do config.php liczona względem tego pliku):
+//   railway ssh -s <svc> "su -s /bin/sh -c 'php /var/www/html/public/local/over30tutors/provision/provision_tutors.php' www-data"
 define('CLI_SCRIPT', true);
 require(dirname(__DIR__, 3) . '/config.php'); // .../public/config.php → root
+require_once($CFG->libdir . '/clilib.php');    // cli_writeln() nie jest auto-ładowane
 require_once($CFG->dirroot . '/cohort/lib.php');
 
 global $DB;
