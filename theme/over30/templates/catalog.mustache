@@ -45,6 +45,10 @@
                     {{/hascourses}}
                 </div>
             </div>
+            {{! Moodle requires every layout to emit the main-content placeholder.
+                The catalog renders its own grid, so the default course-index
+                listing is kept present-but-hidden to satisfy that contract. }}
+            <div class="d-none">{{{ output.main_content }}}</div>
             {{{ output.course_content_footer }}}
         </div>
     </div>
