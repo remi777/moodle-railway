@@ -48,7 +48,7 @@ if (defined('BEHAT_SITE_RUNNING') && get_user_preferences('behat_keep_drawer_clo
     $blockdraweropen = true;
 }
 
-$extraclasses = ['uses-drawers'];
+$extraclasses = ['uses-drawers', 'o30-course-layout'];
 if ($courseindexopen) {
     $extraclasses[] = 'drawer-open-index';
 }

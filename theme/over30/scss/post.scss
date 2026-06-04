@@ -357,6 +357,11 @@ body#page-my-index { background: $cream; }
 }
 @media (min-width: 768px) { .o30-coursebanner__title { font-size: 3.75rem; } }
 
+// Course content width — match the editorial 1400px container (banner stays full-bleed).
+body.o30-course-layout #region-main { max-width: none; }
+.o30-coursebody { max-width: 1400px; margin: 0 auto; padding-left: 1.5rem; padding-right: 1.5rem; }
+@media (min-width: 768px) { .o30-coursebody { padding-left: 3rem; padding-right: 3rem; } }
+
 // --- Section headings (serif espresso) -------------------------------------
 .course-content .sectionname,
 .course-content h2.sectionname,
