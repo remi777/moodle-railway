@@ -545,21 +545,22 @@ a:focus, a:focus-visible, button:focus, button:focus-visible,
 .o30-sales__note { text-align: center; font-size: 12px; color: rgba($espresso, .5); margin-top: .75rem; }
 
 // --- Course index drawer (left nav) — editorial styling, matching the catalog
-//     sidebar (.o30-catalog__aside): cream surface, espresso text, terracotta
-//     hover/active, subtle separators, serif section titles.
+//     sidebar (.o30-catalog__aside): cream surface, clean SANS list, espresso
+//     text, terracotta hover/active, subtle separators, airy rhythm.
 #theme_boost-drawers-courseindex { background: $cream; border-right: 1px solid rgba($espresso, .08); }
 #theme_boost-drawers-courseindex .drawerheader { border-bottom: 1px solid rgba($espresso, .08); }
-.courseindex { padding: .75rem .5rem; }
-.courseindex .courseindex-section { margin-bottom: .25rem; border-bottom: 1px solid rgba($espresso, .06); }
+.courseindex { padding: 1rem .85rem; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+.courseindex .courseindex-section { margin-bottom: .6rem; padding-bottom: .6rem; border-bottom: 1px solid rgba($espresso, .07); }
 .courseindex .courseindex-section:last-child { border-bottom: 0; }
-.courseindex .courseindex-section-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.2rem; font-weight: 600; line-height: 1.2; }
-.courseindex .courseindex-section-title a,
-.courseindex .courseindex-link { color: rgba($espresso, .82); text-decoration: none; transition: color .25s $ease; }
+.courseindex .courseindex-section-title { font-size: .95rem; font-weight: 600; line-height: 1.35; letter-spacing: .005em; }
+.courseindex .courseindex-section-title a { color: $espresso; text-decoration: none; transition: color .25s $ease; }
+.courseindex .courseindex-link { color: rgba($espresso, .68); text-decoration: none; font-size: .9rem; line-height: 1.4; transition: color .25s $ease; }
+.courseindex .courseindex-item-content { padding-top: .2rem; padding-bottom: .2rem; }
 .courseindex .courseindex-section-title a:hover,
 .courseindex .courseindex-link:hover { color: $terracotta; background: transparent; }
 .courseindex .courseindex-item { border-radius: 0; }
 .courseindex .courseindex-item.pageitem > .courseindex-item-content .courseindex-link,
 .courseindex .courseindex-item.pageitem > .courseindex-item-content .courseindex-name,
 .courseindex .courseindex-link.active { color: $terracotta; font-weight: 600; }
-.courseindex .courseindex-chevron { color: rgba($espresso, .4); }
+.courseindex .courseindex-chevron { color: rgba($espresso, .35); }
 .courseindex .courseindex-item.pageitem { background: transparent; box-shadow: inset 2px 0 0 $terracotta; }
