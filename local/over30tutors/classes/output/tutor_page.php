@@ -72,7 +72,9 @@ class tutor_page implements renderable, templatable {
             $o->fullname = $c->fullname;
             $o->summary = format_text($c->summary, (int)$c->summaryformat);
             $o->url = (new \moodle_url('/course/view.php', ['id' => $c->id]))->out(false);
-            $o->imageurl = \core_course\external\course_summary_exporter::get_course_image($c);
+            $img = \core_course\external\course_summary_exporter::get_course_image($c);
+            $o->imageurl = $img ?: '';
+            $o->hasimage = !empty($img);
             $data->courses[] = $o;
         }
         $data->hascourses = !empty($data->courses);

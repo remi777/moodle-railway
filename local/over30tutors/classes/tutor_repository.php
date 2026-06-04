@@ -20,6 +20,9 @@ class tutor_repository {
     /** @var int|null|false cache id cohorty (false = nieustalone, null = brak). */
     private $cohortid = false;
 
+    /** @var int[]|null cache listy userid tutorów (memoizacja w obrębie requestu). */
+    private $tutoruserids = null;
+
     /** Cache id ról nauczycielskich. @var int[]|null */
     private $teacherroleids = null;
 
@@ -35,11 +38,14 @@ class tutor_repository {
     /** @return int[] userid wszystkich tutorów. */
     public function get_tutor_userids(): array {
         global $DB;
+        if ($this->tutoruserids !== null) {
+            return $this->tutoruserids;
+        }
         $cid = $this->get_cohort_id();
         if ($cid === null) {
-            return [];
+            return $this->tutoruserids = [];
         }
-        return array_map('intval', $DB->get_fieldset_select(
+        return $this->tutoruserids = array_map('intval', $DB->get_fieldset_select(
             'cohort_members', 'userid', 'cohortid = :cid', ['cid' => $cid]
         ));
     }

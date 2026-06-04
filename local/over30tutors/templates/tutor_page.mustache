@@ -30,7 +30,7 @@
         <div class="o30-tutor__grid">
             {{#courses}}
             <article class="o30-card">
-                <a href="{{url}}"><img class="o30-card__img" src="{{imageurl}}" alt="{{fullname}}"></a>
+                {{#hasimage}}<a href="{{url}}"><img class="o30-card__img" src="{{imageurl}}" alt="{{fullname}}"></a>{{/hasimage}}
                 <h3 class="o30-card__title"><a href="{{url}}">{{fullname}}</a></h3>
                 <div class="o30-card__summary">{{{summary}}}</div>
                 <a class="o30-card__cta" href="{{url}}">{{#str}}viewcourse, local_over30tutors{{/str}}</a>

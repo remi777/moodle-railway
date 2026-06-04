@@ -1,7 +1,7 @@
 <?php
 require(__DIR__ . '/../../config.php');
 
-$slug = optional_param('slug', '', PARAM_TEXT);
+$slug = optional_param('slug', '', PARAM_ALPHANUMEXT);
 $id   = optional_param('id', 0, PARAM_INT);
 
 $repo = new \local_over30tutors\tutor_repository();

@@ -45,6 +45,8 @@ foreach ($fields as $shortname => [$name, $unique, $textarea]) {
         'forceunique' => $unique ? 1 : 0,
         'signup' => 0,
         'defaultdata' => '',
+        'description' => '',
+        'descriptionformat' => FORMAT_HTML,
         'param1' => $textarea ? null : 30,  // wyświetlana szerokość text
         'param2' => $textarea ? null : 2048,
     ];
