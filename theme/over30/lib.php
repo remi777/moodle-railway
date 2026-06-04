@@ -142,14 +142,23 @@ function theme_over30_course_program($course) {
  * @return array list of ['label'=>..,'value'=>..] for fields that have a value.
  */
 function theme_over30_course_meta($course) {
+    global $DB;
     $labels = ['duration' => 'Czas trwania', 'level' => 'Poziom', 'audience' => 'Dla kogo', 'certificate' => 'Certyfikat'];
     $rows = [];
     try {
-        $handler = \core_course\customfield\course_handler::create();
-        $data = $handler->get_instance_data($course->id, true);
+        // Read the stored values directly. The customfield handler's
+        // get_instance_data() returned NULL values here (the controllers don't
+        // bind the saved rows in this build), but the data is cleanly stored, so
+        // a direct join is the reliable source.
+        $sql = "SELECT f.shortname, d.value
+                  FROM {customfield_data} d
+                  JOIN {customfield_field} f ON f.id = d.fieldid
+                  JOIN {customfield_category} c ON c.id = f.categoryid
+                 WHERE d.instanceid = :courseid
+                   AND c.component = 'core_course' AND c.area = 'course'";
         $byshort = [];
-        foreach ($data as $d) {
-            $byshort[$d->get_field()->get('shortname')] = $d->get_value();
+        foreach ($DB->get_records_sql($sql, ['courseid' => $course->id]) as $r) {
+            $byshort[$r->shortname] = $r->value;
         }
         foreach ($labels as $short => $label) {
             $val = isset($byshort[$short]) ? trim((string)$byshort[$short]) : '';
