@@ -357,10 +357,19 @@ body#page-my-index { background: $cream; }
 }
 @media (min-width: 768px) { .o30-coursebanner__title { font-size: 3.75rem; } }
 
-// Course content width — match the editorial 1400px container (banner stays full-bleed).
+// Editorial content width on ALL drawers-based inner pages (course, dashboard,
+// activities, admin, settings). Boost caps `.main-inner` at 830px; widen it to the
+// 1400px editorial container so every inner page is consistent with the catalog /
+// course / sales pages. The full-bleed front page (body#page-site-index) overrides
+// this with !important; the custom editorial layouts (catalog/sales) don't use
+// `#page.drawers .main-inner` at all, so they're unaffected.
+#page.drawers .main-inner,
+body.limitedwidth #page.drawers .main-inner { max-width: 1400px; padding-left: 1.5rem; padding-right: 1.5rem; }
+@media (min-width: 768px) {
+    #page.drawers .main-inner,
+    body.limitedwidth #page.drawers .main-inner { padding-left: 3rem; padding-right: 3rem; }
+}
 body.o30-course-layout #region-main { max-width: none; }
-.o30-coursebody { max-width: 1400px; margin: 0 auto; padding-left: 1.5rem; padding-right: 1.5rem; }
-@media (min-width: 768px) { .o30-coursebody { padding-left: 3rem; padding-right: 3rem; } }
 
 // --- Section headings (serif espresso) -------------------------------------
 .course-content .sectionname,
