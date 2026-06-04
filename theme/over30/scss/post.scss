@@ -559,8 +559,14 @@ a:focus, a:focus-visible, button:focus, button:focus-visible,
 .courseindex .courseindex-section-title a:hover,
 .courseindex .courseindex-link:hover { color: $terracotta; background: transparent; }
 .courseindex .courseindex-item { border-radius: 0; }
-.courseindex .courseindex-item.pageitem > .courseindex-item-content .courseindex-link,
-.courseindex .courseindex-item.pageitem > .courseindex-item-content .courseindex-name,
-.courseindex .courseindex-link.active { color: $terracotta; font-weight: 600; }
 .courseindex .courseindex-chevron { color: rgba($espresso, .35); }
-.courseindex .courseindex-item.pageitem { background: transparent; box-shadow: inset 2px 0 0 $terracotta; }
+// Active (current) item — clearly visible on the cream drawer. Boost fills it
+// terracotta with WHITE text; once we made the fill transparent that left white
+// text on cream (invisible). So: faint terracotta tint + terracotta text + left
+// accent, and force the text colour on every child to beat Boost's #fff.
+.courseindex .courseindex-item.pageitem { background: rgba($terracotta, .1); box-shadow: inset 2px 0 0 $terracotta; }
+.courseindex .courseindex-item.pageitem,
+.courseindex .courseindex-item.pageitem .courseindex-link,
+.courseindex .courseindex-item.pageitem .courseindex-name,
+.courseindex .courseindex-item.pageitem .courseindex-chevron { color: $terracotta; }
+.courseindex .courseindex-item.pageitem .courseindex-link { font-weight: 600; }
