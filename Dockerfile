@@ -18,6 +18,10 @@ RUN chown -R www-data:www-data /var/www/html/public/webservice/mcp
 COPY local/over30tutors /var/www/html/public/local/over30tutors
 RUN chown -R www-data:www-data /var/www/html/public/local/over30tutors
 
+# Add the over30 public course catalog/detail plugin (public sales pages).
+COPY local/over30catalog /var/www/html/public/local/over30catalog
+RUN chown -R www-data:www-data /var/www/html/public/local/over30catalog
+
 # Pretty URLs for tutor pages (/tutor/<slug>, /tutorzy).
 COPY apache-tutors.conf /etc/apache2/conf-enabled/tutors.conf
 RUN a2enmod rewrite

@@ -14,6 +14,9 @@ try {
         if (!$child->is_uservisible()) {
             continue;
         }
+        if ($child->get_courses_count() < 1) {
+            continue;
+        }
         $cats[] = [
             'id' => $child->id,
             'name' => $child->get_formatted_name(),
@@ -27,6 +30,13 @@ try {
 }
 
 $cards = theme_over30_course_cards($selectedcat, 0);
+
+// Course cards link to the public sales/detail page (no login wall) rather than
+// the gated /course/view.php.
+foreach ($cards as &$card) {
+    $card['url'] = (new \core\url('/local/over30catalog/course.php', ['id' => $card['id']]))->out(false);
+}
+unset($card);
 
 // Primary nav export — provides the user menu / login control to the o30nav partial.
 $primary = new core\navigation\output\primary($PAGE);

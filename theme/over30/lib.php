@@ -81,6 +81,7 @@ function theme_over30_course_cards($categoryid = 0, $limit = 0) {
                 $img = $fallback[$i % count($fallback)];
             }
             $cards[] = [
+                'id' => $c->id,
                 'cat' => core_text::strtoupper($catname),
                 'title' => format_string($c->fullname),
                 'img' => $img,
