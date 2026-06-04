@@ -28,11 +28,16 @@ try {
 
 $cards = theme_over30_course_cards($selectedcat, 0);
 
+// Primary nav export — provides the user menu / login control to the o30nav partial.
+$primary = new core\navigation\output\primary($PAGE);
+$primarymenu = $primary->export_for_template($PAGE->get_renderer('core'));
+
 $templatecontext = [
     'output' => $OUTPUT,
     'bodyattributes' => $bodyattributes,
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), 'escape' => false]),
     'o30nav' => theme_over30_nav_context($OUTPUT),
+    'usermenu' => $primarymenu['user'],
     'allactive' => ($selectedcat === 0),
     'allurl' => (new \core\url('/course/index.php'))->out(false),
     'categories' => $cats,
