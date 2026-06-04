@@ -40,6 +40,64 @@ function theme_over30_nav_context($output) {
 }
 
 /**
+ * Build over30 course-card contexts for a set of visible courses.
+ *
+ * @param int $categoryid 0 = all categories, else only courses in this category.
+ * @param int $limit max number of cards (0 = no limit).
+ * @return array list of ['cat','title','img','url'] ready for .o30-card templates.
+ */
+function theme_over30_course_cards($categoryid = 0, $limit = 0) {
+    global $OUTPUT;
+    $fallback = [
+        $OUTPUT->image_url('course-1', 'theme_over30')->out(),
+        $OUTPUT->image_url('course-2', 'theme_over30')->out(),
+        $OUTPUT->image_url('course-3', 'theme_over30')->out(),
+        $OUTPUT->image_url('course-4', 'theme_over30')->out(),
+    ];
+    $cards = [];
+    $i = 0;
+    try {
+        foreach (get_courses('all', 'c.sortorder ASC', 'c.id, c.fullname, c.category, c.visible') as $c) {
+            if ($c->id == SITEID || empty($c->visible)) {
+                continue;
+            }
+            if ($categoryid && (int)$c->category !== (int)$categoryid) {
+                continue;
+            }
+            $catname = '';
+            try {
+                $cat = core_course_category::get($c->category, IGNORE_MISSING, true);
+                $catname = $cat ? $cat->get_formatted_name() : '';
+            } catch (\Throwable $e) {
+                $catname = '';
+            }
+            $img = '';
+            try {
+                $img = \core_course\external\course_summary_exporter::get_course_image(get_course($c->id)) ?: '';
+            } catch (\Throwable $e) {
+                $img = '';
+            }
+            if (!$img) {
+                $img = $fallback[$i % count($fallback)];
+            }
+            $cards[] = [
+                'cat' => core_text::strtoupper($catname),
+                'title' => format_string($c->fullname),
+                'img' => $img,
+                'url' => (new \core\url('/course/view.php', ['id' => $c->id]))->out(false),
+            ];
+            $i++;
+            if ($limit && $i >= $limit) {
+                break;
+            }
+        }
+    } catch (\Throwable $e) {
+        $cards = [];
+    }
+    return $cards;
+}
+
+/**
  * Inject the over30 brand web fonts into every page head.
  * Loaded here (not via @import url() in SCSS) because scssphp tries to resolve
  * @import url(...) as a local file and fails the whole theme compilation.

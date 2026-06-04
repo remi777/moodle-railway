@@ -492,3 +492,22 @@ a:focus, a:focus-visible, button:focus, button:focus-visible,
 .o30-nav__primary .nav-link.active, .o30-nav__primary .nav-link[aria-current="true"] { color: #b35041; }
 .o30-nav__cta { gap: .75rem; }
 .o30-nav__cta .icon { width: 18px; height: 18px; font-size: 18px; }
+// --- Course catalog (coursecategory layout) ---------------------------------
+.o30-catalog-page { background: $cream; min-height: 100vh; padding: 8rem 0 6rem; }
+.o30-catalog { display: grid; grid-template-columns: 1fr; gap: 3rem; }
+@media (min-width: 1024px) { .o30-catalog { grid-template-columns: 240px 1fr; gap: 4rem; } }
+.o30-catalog__aside { align-self: start; }
+@media (min-width: 1024px) { .o30-catalog__aside { position: sticky; top: 8rem; } }
+.o30-catalog__nav { display: flex; flex-direction: column; gap: .25rem; margin-top: 1.5rem; }
+.o30-catalog__cat { display: flex; justify-content: space-between; align-items: center; padding: .6rem 0; color: $espresso; text-decoration: none; border-bottom: 1px solid rgba($espresso, .08); font-size: .95rem; transition: color .3s $ease; }
+.o30-catalog__cat:hover, .o30-catalog__cat.is-active { color: $terracotta; }
+.o30-catalog__count { font-size: 11px; color: rgba($espresso, .4); }
+.o30-catalog__title { font-size: clamp(2rem, 4vw, 3.25rem); margin-bottom: 3rem; }
+.o30-catalog__empty { color: rgba($espresso, .6); font-style: italic; }
+// Light card variant (catalog sits on a cream background, not the dark frontpage).
+.o30-coursegrid--light { gap: 3rem 2rem; }
+@media (min-width: 1024px) { .o30-coursegrid--light { grid-template-columns: repeat(3, 1fr); } }
+.o30-card--light { color: $espresso; }
+.o30-card--light .o30-card__title { color: $espresso; }
+.o30-card--light:hover .o30-card__title { color: $terracotta; }
+.o30-card--light .o30-card__badge { background: $espresso; color: #fff; }

@@ -34,3 +34,10 @@ $THEME->layouts['course'] = [
     'defaultregion' => 'side-pre',
     'options' => ['langmenu' => true],
 ];
+// Course catalog (/course/index.php) — editorial grid with a sticky category aside.
+$THEME->layouts['coursecategory'] = [
+    'file' => 'catalog.php',
+    'regions' => ['side-pre'],
+    'defaultregion' => 'side-pre',
+    'options' => ['nonavbar' => true],
+];

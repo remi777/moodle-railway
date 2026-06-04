@@ -1,0 +1,59 @@
+{{!
+    @template theme_over30/catalog
+    over30 course catalog: sticky category aside + editorial course grid.
+    Context: o30nav, allactive, allurl, categories[{id,name,count,active,url}],
+             courses[{cat,title,img,url}], hascourses.
+}}
+{{> theme_boost/head }}
+<body {{{ bodyattributes }}}>
+{{> core/local/toast/wrapper}}
+<div id="page-wrapper" class="d-print-block">
+    {{{ output.standard_top_of_body_html }}}
+    {{> theme_over30/o30nav }}
+    <div id="page" class="o30-catalog-page">
+        <div id="region-main" role="main">
+            {{{ output.course_content_header }}}
+            <div class="o30-container o30-catalog">
+                <aside class="o30-catalog__aside">
+                    <span class="o30-label">Katalog</span>
+                    <nav class="o30-catalog__nav">
+                        <a href="{{allurl}}" class="o30-catalog__cat {{#allactive}}is-active{{/allactive}}">Wszystkie</a>
+                        {{#categories}}
+                            <a href="{{url}}" class="o30-catalog__cat {{#active}}is-active{{/active}}">
+                                {{name}} <span class="o30-catalog__count">{{count}}</span>
+                            </a>
+                        {{/categories}}
+                    </nav>
+                </aside>
+                <div class="o30-catalog__main">
+                    <h1 class="o30-serif o30-catalog__title">Kolekcja <em>Kursów</em></h1>
+                    {{#hascourses}}
+                        <div class="o30-coursegrid o30-coursegrid--light">
+                            {{#courses}}
+                                <a href="{{url}}" class="o30-card o30-card--light">
+                                    <div class="o30-card__media">
+                                        <img src="{{img}}" alt="{{title}}" class="o30-card__img">
+                                        {{#cat}}<span class="o30-card__badge">{{cat}}</span>{{/cat}}
+                                    </div>
+                                    <h3 class="o30-serif o30-card__title">{{title}}</h3>
+                                </a>
+                            {{/courses}}
+                        </div>
+                    {{/hascourses}}
+                    {{^hascourses}}
+                        <p class="o30-catalog__empty">Brak kursów w tej kategorii.</p>
+                    {{/hascourses}}
+                </div>
+            </div>
+            {{{ output.course_content_footer }}}
+        </div>
+    </div>
+    {{> theme_boost/footer }}
+    {{{ output.standard_after_main_region_html }}}
+</div>
+</body>
+</html>
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function(Loader) { M.util.js_complete('theme_boost/loader'); });
+{{/js}}
