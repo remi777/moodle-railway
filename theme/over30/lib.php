@@ -98,6 +98,71 @@ function theme_over30_course_cards($categoryid = 0, $limit = 0) {
 }
 
 /**
+ * Build the "Program Kursu" accordion data (sections -> lessons) for preview.
+ * Names only; no links/content (safe to show to anonymous visitors).
+ *
+ * @param stdClass $course
+ * @return array list of ['module'=>string,'lessons'=>[['name'=>..]],'haslessons'=>bool]
+ */
+function theme_over30_course_program($course) {
+    $out = [];
+    try {
+        $modinfo = get_fast_modinfo($course);
+        foreach ($modinfo->get_section_info_all() as $section) {
+            if ($section->section == 0 && trim((string)$section->name) === '') {
+                continue;
+            }
+            $lessons = [];
+            if (!empty($modinfo->sections[$section->section])) {
+                foreach ($modinfo->sections[$section->section] as $cmid) {
+                    $cm = $modinfo->cms[$cmid];
+                    if ($cm->deletioninprogress) {
+                        continue;
+                    }
+                    if (!$cm->visible && !$cm->visibleoncoursepage) {
+                        continue;
+                    }
+                    $lessons[] = ['name' => format_string($cm->name)];
+                }
+            }
+            $title = $section->name ? format_string($section->name)
+                : get_string('section') . ' ' . $section->section;
+            $out[] = ['module' => $title, 'lessons' => $lessons, 'haslessons' => !empty($lessons)];
+        }
+    } catch (\Throwable $e) {
+        $out = [];
+    }
+    return $out;
+}
+
+/**
+ * Read over30 course metadata custom fields (duration/level/audience/certificate).
+ * @param stdClass $course
+ * @return array list of ['label'=>..,'value'=>..] for fields that have a value.
+ */
+function theme_over30_course_meta($course) {
+    $labels = ['duration' => 'Czas trwania', 'level' => 'Poziom', 'audience' => 'Dla kogo', 'certificate' => 'Certyfikat'];
+    $rows = [];
+    try {
+        $handler = \core_course\customfield\course_handler::create();
+        $data = $handler->get_instance_data($course->id, true);
+        $byshort = [];
+        foreach ($data as $d) {
+            $byshort[$d->get_field()->get('shortname')] = $d->get_value();
+        }
+        foreach ($labels as $short => $label) {
+            $val = isset($byshort[$short]) ? trim((string)$byshort[$short]) : '';
+            if ($val !== '') {
+                $rows[] = ['label' => $label, 'value' => format_string($val)];
+            }
+        }
+    } catch (\Throwable $e) {
+        $rows = [];
+    }
+    return $rows;
+}
+
+/**
  * Inject the over30 brand web fonts into every page head.
  * Loaded here (not via @import url() in SCSS) because scssphp tries to resolve
  * @import url(...) as a local file and fails the whole theme compilation.

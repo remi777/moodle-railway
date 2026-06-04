@@ -41,3 +41,10 @@ $THEME->layouts['coursecategory'] = [
     'defaultregion' => 'side-pre',
     'options' => ['nonavbar' => true],
 ];
+
+// Public course sales/landing page (set by local_over30catalog for guests).
+$THEME->layouts['o30sales'] = [
+    'file' => 'sales.php',
+    'regions' => [],
+    'options' => ['nonavbar' => true],
+];

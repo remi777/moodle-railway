@@ -1,0 +1,67 @@
+{{!
+    @template theme_over30/sales
+    Public course landing/sales page: hero + Program accordion + sticky meta + buy.
+    Context: o30nav, usermenu, image, category, hascategory, title, summary,
+             program[{module,lessons[{name}],haslessons}], meta[{label,value}], hasmeta, buyurl.
+}}
+{{> theme_boost/head }}
+<body {{{ bodyattributes }}}>
+{{> core/local/toast/wrapper}}
+<div id="page-wrapper" class="d-print-block">
+    {{{ output.standard_top_of_body_html }}}
+    {{> theme_over30/o30nav }}
+    <div id="page" class="o30-sales-page">
+        <div id="region-main" role="main">
+            <div class="o30-coursebanner">
+                {{#image}}<img class="o30-coursebanner__img" src="{{image}}" alt="">{{/image}}
+                <div class="o30-coursebanner__overlay"></div>
+                <div class="o30-coursebanner__inner">
+                    <div class="o30-coursebanner__crumb">
+                        <span>Studio</span>
+                        {{#hascategory}}<span class="sep">&rsaquo;</span><span class="cat">{{category}}</span>{{/hascategory}}
+                    </div>
+                    <h1 class="o30-coursebanner__title">{{title}}</h1>
+                </div>
+            </div>
+            <div class="o30-container o30-sales">
+                <div class="o30-sales__main">
+                    {{#summary}}<div class="o30-sales__summary">{{{summary}}}</div>{{/summary}}
+                    <span class="o30-label">Program Kursu</span>
+                    <div class="o30-program">
+                        {{#program}}
+                            <details class="o30-program__module" open>
+                                <summary class="o30-program__modhead o30-serif">{{module}}</summary>
+                                {{#haslessons}}
+                                    <ul class="o30-program__lessons">
+                                        {{#lessons}}<li class="o30-program__lesson">{{name}}</li>{{/lessons}}
+                                    </ul>
+                                {{/haslessons}}
+                            </details>
+                        {{/program}}
+                    </div>
+                </div>
+                <aside class="o30-sales__aside">
+                    <div class="o30-sales__card">
+                        {{#hasmeta}}
+                            <ul class="o30-sales__meta">
+                                {{#meta}}<li><span>{{label}}</span><span class="o30-sales__metaval">{{value}}</span></li>{{/meta}}
+                            </ul>
+                        {{/hasmeta}}
+                        <a href="{{buyurl}}" class="o30-buy">Kup</a>
+                        <p class="o30-sales__note">Dostęp po zalogowaniu.</p>
+                    </div>
+                </aside>
+            </div>
+            {{! Moodle requires every layout to emit the main-content placeholder; this page has none, so keep it hidden. }}
+            <div class="d-none">{{{ output.main_content }}}</div>
+        </div>
+    </div>
+    {{> theme_boost/footer }}
+    {{{ output.standard_after_main_region_html }}}
+</div>
+</body>
+</html>
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function(Loader) { M.util.js_complete('theme_boost/loader'); });
+{{/js}}
