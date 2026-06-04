@@ -1,0 +1,25 @@
+{{!
+    @template local_over30tutors/catalog
+    Katalog tutorów.
+}}
+<div class="o30-catalog">
+    <h1 class="o30-catalog__title">{{title}}</h1>
+    {{#hastag}}
+    <p class="o30-catalog__filter">#{{tag}} — <a href="{{clearurl}}">{{#str}}cleartag, local_over30tutors{{/str}}</a></p>
+    {{/hastag}}
+
+    {{#hastutors}}
+    <div class="o30-catalog__grid">
+        {{#tutors}}
+        <article class="o30-tcard">
+            <a href="{{url}}"><img class="o30-tcard__avatar" src="{{pictureurl}}" alt="{{fullname}}"></a>
+            <h3 class="o30-tcard__name"><a href="{{url}}">{{fullname}}</a></h3>
+            {{#tagline}}<p class="o30-tcard__tagline">{{tagline}}</p>{{/tagline}}
+            <ul class="o30-tcard__tags">{{#tags}}<li>#{{.}}</li>{{/tags}}</ul>
+            <a class="o30-tcard__cta" href="{{url}}">{{#str}}viewprofile, local_over30tutors{{/str}}</a>
+        </article>
+        {{/tutors}}
+    </div>
+    {{/hastutors}}
+    {{^hastutors}}<p class="o30-empty">{{#str}}notutors, local_over30tutors{{/str}}</p>{{/hastutors}}
+</div>

@@ -1,0 +1,43 @@
+{{!
+    @template local_over30tutors/tutor_page
+    Strona pojedynczego tutora.
+}}
+<div class="o30-tutor">
+    <header class="o30-tutor__hero">
+        <img class="o30-tutor__avatar" src="{{pictureurl}}" alt="{{fullname}}">
+        <div class="o30-tutor__heading">
+            <h1 class="o30-tutor__name">{{fullname}}</h1>
+            {{#tagline}}<p class="o30-tutor__tagline">{{tagline}}</p>{{/tagline}}
+        </div>
+    </header>
+
+    {{#haslinks}}
+    <nav class="o30-tutor__links">
+        {{#links}}<a class="o30-tutor__link" href="{{url}}" rel="nofollow noopener" target="_blank">{{label}}</a>{{/links}}
+    </nav>
+    {{/haslinks}}
+
+    {{#bio}}<section class="o30-tutor__bio">{{{bio}}}</section>{{/bio}}
+
+    {{#hastags}}
+    <ul class="o30-tutor__tags">
+        {{#tags}}<li><a href="{{url}}">#{{name}}</a></li>{{/tags}}
+    </ul>
+    {{/hastags}}
+
+    <section class="o30-tutor__courses">
+        {{#hascourses}}
+        <div class="o30-tutor__grid">
+            {{#courses}}
+            <article class="o30-card">
+                {{#hasimage}}<a href="{{url}}"><img class="o30-card__img" src="{{imageurl}}" alt="{{fullname}}"></a>{{/hasimage}}
+                <h3 class="o30-card__title"><a href="{{url}}">{{fullname}}</a></h3>
+                <div class="o30-card__summary">{{{summary}}}</div>
+                <a class="o30-card__cta" href="{{url}}">{{#str}}viewcourse, local_over30tutors{{/str}}</a>
+            </article>
+            {{/courses}}
+        </div>
+        {{/hascourses}}
+        {{^hascourses}}<p class="o30-empty">{{#str}}nocourses, local_over30tutors{{/str}}</p>{{/hascourses}}
+    </section>
+</div>
