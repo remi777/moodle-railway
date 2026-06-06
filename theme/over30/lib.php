@@ -210,7 +210,7 @@ function theme_over30_dashboard_catalog_cards($limit = 4) {
                 'title' => format_string($c->fullname),
                 'img' => $img,
                 'url' => (new \core\url('/course/view.php', ['id' => $c->id]))->out(false),
-                'price' => format_string($price),
+                'price' => $price,
                 'hasprice' => $price !== '',
             ];
             $i++;
