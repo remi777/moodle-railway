@@ -661,3 +661,6 @@ body.o30-has-rail:not(#page-site-index) #page-wrapper { padding-left: $o30-sideb
 .o30-dash__catgrid { gap: 2rem 1.5rem; }
 @media (min-width: 1024px) { .o30-dash__catgrid { grid-template-columns: repeat(4, 1fr); } }
 .o30-card__price { display: inline-block; margin-top: .35rem; color: $terracotta; font-weight: 700; font-size: .95rem; }
+.o30-dash__empty { color: rgba($espresso, .6); font-style: italic; }
+.o30-dash__empty a { color: $terracotta; text-decoration: none; }
+.o30-dash__empty a:hover { color: $espresso; }

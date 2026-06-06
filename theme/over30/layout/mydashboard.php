@@ -145,4 +145,8 @@ $templatecontext['o30timelinehtml'] = $dashblocks['timelinehtml'];
 $templatecontext['o30hascalendar'] = $dashblocks['calendarhtml'] !== '';
 $templatecontext['o30hastimeline'] = $dashblocks['timelinehtml'] !== '';
 
+$mycourses = theme_over30_my_courses_cards();
+$templatecontext['o30mycourses'] = $mycourses;
+$templatecontext['o30hasmycourses'] = !empty($mycourses);
+
 echo $OUTPUT->render_from_template('theme_over30/mydashboard', $templatecontext);

@@ -250,6 +250,77 @@ function theme_over30_dashboard_blocks($page) {
 }
 
 /**
+ * Build "Moje kursy" cards: courses the current user is enrolled in, with
+ * completion progress. Rendered directly (deterministic) so the dashboard does
+ * not depend on the per-user My-page block layout.
+ *
+ * @return array list of ['title','url','img','cat','hasprogress','progress']
+ */
+function theme_over30_my_courses_cards() {
+    global $USER, $OUTPUT, $CFG;
+    require_once($CFG->libdir . '/completionlib.php');
+    $fallback = [
+        $OUTPUT->image_url('course-1', 'theme_over30')->out(),
+        $OUTPUT->image_url('course-2', 'theme_over30')->out(),
+        $OUTPUT->image_url('course-3', 'theme_over30')->out(),
+        $OUTPUT->image_url('course-4', 'theme_over30')->out(),
+    ];
+    $cards = [];
+    $i = 0;
+    try {
+        $courses = enrol_get_users_courses($USER->id, true, ['id', 'fullname', 'category', 'visible']);
+        foreach ($courses as $c) {
+            if ($c->id == SITEID || empty($c->visible)) {
+                continue;
+            }
+            $course = get_course($c->id);
+            $hasprogress = false;
+            $progress = 0;
+            try {
+                $completion = new \completion_info($course);
+                if ($completion->is_enabled()) {
+                    $pct = \core_completion\progress::get_course_progress_percentage($course, $USER->id);
+                    if ($pct !== null) {
+                        $hasprogress = true;
+                        $progress = (int) round($pct);
+                    }
+                }
+            } catch (\Throwable $e) {
+                $hasprogress = false;
+            }
+            $catname = '';
+            try {
+                $cat = core_course_category::get($course->category, IGNORE_MISSING, true);
+                $catname = $cat ? $cat->get_formatted_name() : '';
+            } catch (\Throwable $e) {
+                $catname = '';
+            }
+            $img = '';
+            try {
+                $img = \core_course\external\course_summary_exporter::get_course_image($course) ?: '';
+            } catch (\Throwable $e) {
+                $img = '';
+            }
+            if (!$img) {
+                $img = $fallback[$i % count($fallback)];
+            }
+            $cards[] = [
+                'title' => format_string($course->fullname),
+                'url' => (new \core\url('/course/view.php', ['id' => $course->id]))->out(false),
+                'img' => $img,
+                'cat' => core_text::strtoupper($catname),
+                'hasprogress' => $hasprogress,
+                'progress' => $progress,
+            ];
+            $i++;
+        }
+    } catch (\Throwable $e) {
+        $cards = [];
+    }
+    return $cards;
+}
+
+/**
  * Build the "Program Kursu" accordion data (sections -> lessons) for preview.
  * Names only; no links/content (safe to show to anonymous visitors).
  *
