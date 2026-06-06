@@ -616,14 +616,14 @@ $o30-sidebar-rail: 64px;
 .o30-sidebar__overlay { display: none; position: fixed; inset: 0; background: rgba($espresso, .5); z-index: 1059; }
 
 // Content offset: push the whole page (top nav + main) right by sidebar width.
-// Logged-in pages get body.o30-has-sidebar / body.o30-has-rail (set in layouts).
-// Never offset the full-bleed front page.
-body.o30-has-sidebar:not(#page-site-index) #page-wrapper { padding-left: $o30-sidebar-w; }
-body.o30-has-rail:not(#page-site-index) #page-wrapper { padding-left: $o30-sidebar-rail; }
+// The sidebar is injected globally (theme_over30_before_standard_top_of_body_html),
+// so we key the offset off its presence in the DOM via :has() — no body class needed.
+// Rail rule comes second so it wins when both match (a rail IS also .o30-sidebar).
+body:has(.o30-sidebar) #page-wrapper { padding-left: $o30-sidebar-w; }
+body:has(.o30-sidebar--rail) #page-wrapper { padding-left: $o30-sidebar-rail; }
 
 @media (max-width: 991.98px) {
-    body.o30-has-sidebar:not(#page-site-index) #page-wrapper,
-    body.o30-has-rail:not(#page-site-index) #page-wrapper { padding-left: 0; }
+    body:has(.o30-sidebar) #page-wrapper { padding-left: 0; }
     .o30-sidebar { transform: translateX(-100%); transition: transform .3s $ease; width: $o30-sidebar-w; }
     .o30-sidebar--rail .o30-sidebar__label, .o30-sidebar--rail .o30-sidebar__usermeta, .o30-sidebar--rail .o30-sidebar__brand { display: revert; }
     .o30-sidebar--rail { width: $o30-sidebar-w; padding-left: 1rem; padding-right: 1rem; }

@@ -2,12 +2,7 @@
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/course/lib.php');
 
-$sidebar = theme_over30_sidebar_context($PAGE);
-$catalogextraclasses = ['o30-catalog-layout'];
-if (!empty($sidebar['loggedin'])) {
-    $catalogextraclasses[] = !empty($sidebar['rail']) ? 'o30-has-rail' : 'o30-has-sidebar';
-}
-$bodyattributes = $OUTPUT->body_attributes($catalogextraclasses);
+$bodyattributes = $OUTPUT->body_attributes(['o30-catalog-layout']);
 
 // Selected category from the URL (?categoryid=N); 0 = all.
 $selectedcat = optional_param('categoryid', 0, PARAM_INT);
@@ -52,7 +47,6 @@ $templatecontext = [
     'bodyattributes' => $bodyattributes,
     'sitename' => format_string($SITE->shortname, true, ['context' => context_course::instance(SITEID), 'escape' => false]),
     'o30nav' => theme_over30_nav_context($OUTPUT),
-    'o30sidebar' => $sidebar,
     'usermenu' => $primarymenu['user'],
     'allactive' => ($selectedcat === 0),
     'allurl' => (new \core\url('/course/index.php'))->out(false),

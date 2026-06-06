@@ -47,14 +47,9 @@ if (defined('BEHAT_SITE_RUNNING') && get_user_preferences('behat_keep_drawer_clo
     $blockdraweropen = true;
 }
 
-$sidebar = theme_over30_sidebar_context($PAGE);
-
 $extraclasses = ['uses-drawers'];
 if ($courseindexopen) {
     $extraclasses[] = 'drawer-open-index';
-}
-if (!empty($sidebar['loggedin'])) {
-    $extraclasses[] = !empty($sidebar['rail']) ? 'o30-has-rail' : 'o30-has-sidebar';
 }
 
 $blockshtml = $OUTPUT->blocks('side-pre');
@@ -131,7 +126,6 @@ $templatecontext = [
     'o30dashboardheading' => get_string('o30dashboardheading', 'theme_over30'),
     'o30dashboardsubtitle' => get_string('o30dashboardsubtitle', 'theme_over30'),
     'o30nav' => theme_over30_nav_context($OUTPUT),
-    'o30sidebar' => $sidebar,
 ];
 
 $catcards = theme_over30_dashboard_catalog_cards(4);

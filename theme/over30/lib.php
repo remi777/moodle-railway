@@ -395,6 +395,37 @@ function theme_over30_course_meta($course) {
 }
 
 /**
+ * Inject the global over30 left sidebar on EVERY page (all layouts), so it does
+ * not disappear on subpages that use Boost's non-overridden layouts (calendar,
+ * profile, activities, admin, etc.). Logged-in only; nothing on the front page
+ * (the sidebar_context guards site-index) or on chromeless layouts.
+ */
+function theme_over30_before_standard_top_of_body_html() {
+    global $PAGE, $OUTPUT;
+    // Chromeless / special layouts must not get the app sidebar.
+    $skiplayouts = ['embedded', 'popup', 'maintenance', 'print', 'redirect', 'secure', 'login', 'frametop'];
+    if (in_array($PAGE->pagelayout, $skiplayouts, true)) {
+        return '';
+    }
+    $ctx = theme_over30_sidebar_context($PAGE);
+    if (empty($ctx['loggedin'])) {
+        return '';
+    }
+    $html = $OUTPUT->render_from_template('theme_over30/o30sidebar', $ctx);
+    // Global mobile off-canvas toggle (replaces the former per-layout copies).
+    $html .= '<script>'
+        . '(function(){'
+        . 'var b=document.querySelector("[data-o30-sidebar-toggle]");'
+        . 'var o=document.querySelector("[data-o30-sidebar-overlay]");'
+        . 'var c=function(){document.body.classList.remove("o30-sidebar-open");};'
+        . 'if(b){b.addEventListener("click",function(){document.body.classList.toggle("o30-sidebar-open");});}'
+        . 'if(o){o.addEventListener("click",c);}'
+        . '})();'
+        . '</script>';
+    return $html;
+}
+
+/**
  * Inject the over30 brand web fonts into every page head.
  * Loaded here (not via @import url() in SCSS) because scssphp tries to resolve
  * @import url(...) as a local file and fails the whole theme compilation.
