@@ -80,6 +80,38 @@ function theme_over30_sidebar_context($page) {
 
     $userpic = $OUTPUT->user_picture($USER, ['size' => 36, 'link' => false, 'class' => 'o30-sidebar__avatar']);
 
+    // Course category tree (top-level + subcategories) for catalog navigation in
+    // the sidebar. Each link filters the catalog via /course/index.php?categoryid=N.
+    $currentcat = optional_param('categoryid', 0, PARAM_INT);
+    $categories = [];
+    try {
+        foreach (\core_course_category::top()->get_children() as $cat) {
+            if (!$cat->is_uservisible()) {
+                continue;
+            }
+            $subs = [];
+            foreach ($cat->get_children() as $sub) {
+                if (!$sub->is_uservisible()) {
+                    continue;
+                }
+                $subs[] = [
+                    'name'   => $sub->get_formatted_name(),
+                    'url'    => (new \core\url('/course/index.php', ['categoryid' => $sub->id]))->out(false),
+                    'active' => ((int)$currentcat === (int)$sub->id),
+                ];
+            }
+            $categories[] = [
+                'name'        => $cat->get_formatted_name(),
+                'url'         => (new \core\url('/course/index.php', ['categoryid' => $cat->id]))->out(false),
+                'active'      => ((int)$currentcat === (int)$cat->id),
+                'haschildren' => !empty($subs),
+                'children'    => $subs,
+            ];
+        }
+    } catch (\Throwable $e) {
+        $categories = [];
+    }
+
     return [
         'loggedin'    => true,
         'rail'        => $incourse,
@@ -89,6 +121,8 @@ function theme_over30_sidebar_context($page) {
         'profileurl'  => (new \core\url('/user/profile.php', ['id' => $USER->id]))->out(false),
         'logouturl'   => (new \core\url('/login/logout.php', ['sesskey' => sesskey()]))->out(false),
         'homeurl'     => $wwwroot . '/',
+        'categories'  => $categories,
+        'hascategories' => !empty($categories),
     ];
 }
 

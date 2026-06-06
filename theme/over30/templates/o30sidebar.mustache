@@ -31,6 +31,21 @@
         </a>
         {{/items}}
     </nav>
+    {{#hascategories}}
+    <div class="o30-sidebar__cats">
+        <span class="o30-sidebar__catshead">Kategorie</span>
+        {{#categories}}
+        <a class="o30-sidebar__cat {{#active}}is-active{{/active}}" href="{{url}}" {{#active}}aria-current="page"{{/active}}>{{name}}</a>
+        {{#haschildren}}
+        <div class="o30-sidebar__subcats">
+            {{#children}}
+            <a class="o30-sidebar__subcat {{#active}}is-active{{/active}}" href="{{url}}" {{#active}}aria-current="page"{{/active}}>{{name}}</a>
+            {{/children}}
+        </div>
+        {{/haschildren}}
+        {{/categories}}
+    </div>
+    {{/hascategories}}
     <div class="o30-sidebar__foot">
         <a class="o30-sidebar__item" href="{{profileurl}}" title="Profil">
             <span class="o30-sidebar__icon">

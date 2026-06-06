@@ -584,7 +584,17 @@ $o30-sidebar-rail: 64px;
 }
 .o30-sidebar__brand { display: block; margin: .2rem .5rem 1.4rem; }
 .o30-sidebar__logoimg { display: block; width: 110px; height: 30px; background: url([[pix:theme_over30|logo-light]]) left center / contain no-repeat; }
-.o30-sidebar__nav { display: flex; flex-direction: column; gap: .15rem; flex: 1; }
+.o30-sidebar__nav { display: flex; flex-direction: column; gap: .15rem; }
+// Category tree (catalog navigation).
+.o30-sidebar__cats { display: flex; flex-direction: column; gap: .05rem; margin-top: 1.25rem; }
+.o30-sidebar__catshead { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: $blush; padding: .4rem .7rem .3rem; }
+.o30-sidebar__cat { display: block; padding: .5rem .7rem; color: rgba(#efe5e1, .82); text-decoration: none; font-size: 13.5px; transition: background-color .2s $ease, color .2s $ease; }
+.o30-sidebar__cat:hover { background: #3a2a27; color: #fff; }
+.o30-sidebar__cat.is-active { background: $terracotta; color: #fff; }
+.o30-sidebar__subcats { display: flex; flex-direction: column; }
+.o30-sidebar__subcat { display: block; padding: .35rem .7rem .35rem 1.7rem; color: rgba(#efe5e1, .6); text-decoration: none; font-size: 12.5px; transition: color .2s $ease; }
+.o30-sidebar__subcat:hover { color: #fff; }
+.o30-sidebar__subcat.is-active { color: $blush; font-weight: 600; }
 .o30-sidebar__item {
     display: flex; align-items: center; gap: .85rem; padding: .65rem .7rem;
     color: rgba(#efe5e1, .82); text-decoration: none; font-size: 14px; font-weight: 500;
@@ -607,6 +617,7 @@ $o30-sidebar-rail: 64px;
 .o30-sidebar--rail { width: $o30-sidebar-rail; padding-left: .5rem; padding-right: .5rem; }
 .o30-sidebar--rail .o30-sidebar__label,
 .o30-sidebar--rail .o30-sidebar__usermeta,
+.o30-sidebar--rail .o30-sidebar__cats,
 .o30-sidebar--rail .o30-sidebar__brand { display: none; }
 .o30-sidebar--rail .o30-sidebar__item { justify-content: center; padding: .65rem 0; }
 .o30-sidebar--rail .o30-sidebar__user { justify-content: center; padding: .6rem 0; }
