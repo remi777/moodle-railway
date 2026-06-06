@@ -139,4 +139,10 @@ $templatecontext['o30catalogcards'] = $catcards;
 $templatecontext['o30hascatalog'] = !empty($catcards);
 $templatecontext['o30courselisturl'] = (new \core\url('/course/'))->out(false);
 
+$dashblocks = theme_over30_dashboard_blocks($PAGE);
+$templatecontext['o30calendarhtml'] = $dashblocks['calendarhtml'];
+$templatecontext['o30timelinehtml'] = $dashblocks['timelinehtml'];
+$templatecontext['o30hascalendar'] = $dashblocks['calendarhtml'] !== '';
+$templatecontext['o30hastimeline'] = $dashblocks['timelinehtml'] !== '';
+
 echo $OUTPUT->render_from_template('theme_over30/mydashboard', $templatecontext);

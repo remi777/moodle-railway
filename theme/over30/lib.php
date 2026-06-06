@@ -221,6 +221,35 @@ function theme_over30_dashboard_catalog_cards($limit = 4) {
 }
 
 /**
+ * Render the dashboard's calendar (mini month) and timeline native blocks to
+ * HTML, deterministically (independent of per-user block placement).
+ * Signatures verified by a live spike on this Moodle 5.2 build.
+ *
+ * @param moodle_page $page
+ * @return array ['calendarhtml'=>string, 'timelinehtml'=>string]
+ */
+function theme_over30_dashboard_blocks($page) {
+    global $CFG;
+    $calendarhtml = '';
+    $timelinehtml = '';
+    try {
+        $renderable = new \block_timeline\output\main(0, 'sortbydates', false, 0);
+        $timelinehtml = $page->get_renderer('block_timeline')->render($renderable);
+    } catch (\Throwable $e) {
+        $timelinehtml = '';
+    }
+    try {
+        require_once($CFG->dirroot . '/calendar/lib.php');
+        $calendar = \calendar_information::create(time(), SITEID, null);
+        list($data, $template) = calendar_get_view($calendar, 'mini');
+        $calendarhtml = $page->get_renderer('core_calendar')->render_from_template($template, $data);
+    } catch (\Throwable $e) {
+        $calendarhtml = '';
+    }
+    return ['calendarhtml' => $calendarhtml, 'timelinehtml' => $timelinehtml];
+}
+
+/**
  * Build the "Program Kursu" accordion data (sections -> lessons) for preview.
  * Names only; no links/content (safe to show to anonymous visitors).
  *
