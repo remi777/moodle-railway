@@ -168,7 +168,29 @@
                             <h1 class="o30-studio__title">{{o30dashboardheading}}</h1>
                             <p class="o30-studio__sub">{{o30dashboardsubtitle}}</p>
                         </header>
-                        {{{ output.main_content }}}
+
+                        <div class="o30-dash__top">
+                            {{#o30hascalendar}}
+                            <section class="o30-panel o30-dash__cal">
+                                <h2 class="o30-serif o30-panel__title">Kalendarz</h2>
+                                {{{ o30calendarhtml }}}
+                            </section>
+                            {{/o30hascalendar}}
+                            {{#o30hastimeline}}
+                            <section class="o30-panel o30-dash__timeline">
+                                <h2 class="o30-serif o30-panel__title">Oś czasu</h2>
+                                {{{ o30timelinehtml }}}
+                            </section>
+                            {{/o30hastimeline}}
+                        </div>
+
+                        <section class="o30-dash__courses">
+                            <div class="o30-dash__sectionhead">
+                                <h2 class="o30-serif">Moje kursy</h2>
+                            </div>
+                            {{{ output.main_content }}}
+                        </section>
+
                         {{{ output.activity_navigation }}}
                         {{{ output.course_content_footer }}}
 
