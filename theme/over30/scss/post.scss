@@ -631,3 +631,23 @@ body.o30-has-rail:not(#page-site-index) #page-wrapper { padding-left: $o30-sideb
     body.o30-sidebar-open .o30-sidebar__overlay { display: block; }
     .o30-sidebar__burger { display: inline-flex; }
 }
+
+// =====================================================================
+//  DASHBOARD LAYOUT B — calendar + timeline row, panels
+// =====================================================================
+.o30-panel { background: #fff; border: 1px solid rgba($espresso, .1); padding: 1.5rem 1.5rem 1.25rem; }
+.o30-panel__title { font-size: 1.4rem; color: $espresso; margin: 0 0 1rem; }
+
+.o30-dash__top { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+@media (min-width: 1024px) { .o30-dash__top { grid-template-columns: 320px 1fr; } }
+
+.o30-dash__sectionhead { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.5rem; }
+.o30-dash__sectionhead h2 { font-size: clamp(1.75rem, 3vw, 2.25rem); color: $espresso; margin: 0; }
+.o30-dash__courses { margin-bottom: 3rem; }
+
+// Native block markup inside panels: strip Moodle's card chrome, brand it.
+.o30-panel .block { border: 0; box-shadow: none; background: transparent; margin: 0; padding: 0; }
+.o30-panel .block .card-body { padding: 0; }
+.o30-panel .calendarwrapper { font-size: .9rem; }
+.o30-panel .calendarwrapper .today { background: $terracotta; color: #fff; }
+.o30-panel .event a, .o30-panel .block_timeline a { color: $terracotta; }
