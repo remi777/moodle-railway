@@ -504,7 +504,7 @@ a:focus, a:focus-visible, button:focus, button:focus-visible,
 // --- Course catalog (coursecategory layout) ---------------------------------
 .o30-catalog-page { background: $cream; min-height: 100vh; padding: 8rem 0 6rem; }
 .o30-catalog { display: grid; grid-template-columns: 1fr; gap: 3rem; }
-@media (min-width: 1024px) { .o30-catalog { grid-template-columns: 240px 1fr; gap: 4rem; } }
+@media (min-width: 1024px) { .o30-catalog { gap: 4rem; } }
 .o30-catalog__aside { align-self: start; }
 @media (min-width: 1024px) { .o30-catalog__aside { position: sticky; top: 8rem; } }
 .o30-catalog__nav { display: flex; flex-direction: column; gap: .25rem; margin-top: 1.5rem; }

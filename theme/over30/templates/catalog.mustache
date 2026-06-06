@@ -1,8 +1,8 @@
 {{!
     @template theme_over30/catalog
-    over30 course catalog: sticky category aside + editorial course grid.
-    Context: o30nav, allactive, allurl, categories[{id,name,count,active,url}],
-             courses[{cat,title,img,url}], hascourses.
+    over30 course catalog: editorial course grid (full width; navigation is the
+    global left sidebar — no separate category aside).
+    Context: o30nav, courses[{cat,title,img,url}], hascourses.
 }}
 {{> theme_boost/head }}
 <body {{{ bodyattributes }}}>
@@ -14,17 +14,6 @@
         <div id="region-main" role="main">
             {{{ output.course_content_header }}}
             <div class="o30-container o30-catalog">
-                <aside class="o30-catalog__aside">
-                    <span class="o30-label">Katalog</span>
-                    <nav class="o30-catalog__nav">
-                        <a href="{{allurl}}" class="o30-catalog__cat {{#allactive}}is-active{{/allactive}}">Wszystkie</a>
-                        {{#categories}}
-                            <a href="{{url}}" class="o30-catalog__cat {{#active}}is-active{{/active}}">
-                                {{name}} <span class="o30-catalog__count">{{count}}</span>
-                            </a>
-                        {{/categories}}
-                    </nav>
-                </aside>
                 <div class="o30-catalog__main">
                     <h1 class="o30-serif o30-catalog__title">Kolekcja <em>Kursów</em></h1>
                     {{#hascourses}}
