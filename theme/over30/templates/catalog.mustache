@@ -10,6 +10,7 @@
 <div id="page-wrapper" class="d-print-block">
     {{{ output.standard_top_of_body_html }}}
     {{> theme_over30/o30nav }}
+    {{#o30sidebar}}{{> theme_over30/o30sidebar }}{{/o30sidebar}}
     <div id="page" class="o30-catalog-page">
         <div id="region-main" role="main">
             {{{ output.course_content_header }}}
@@ -60,4 +61,11 @@
 {{#js}}
 M.util.js_pending('theme_boost/loader');
 require(['theme_boost/loader'], function(Loader) { M.util.js_complete('theme_boost/loader'); });
+(function() {
+    var b = document.querySelector('[data-o30-sidebar-toggle]');
+    var o = document.querySelector('[data-o30-sidebar-overlay]');
+    var close = function(){ document.body.classList.remove('o30-sidebar-open'); };
+    if (b) { b.addEventListener('click', function(){ document.body.classList.toggle('o30-sidebar-open'); }); }
+    if (o) { o.addEventListener('click', close); }
+})();
 {{/js}}

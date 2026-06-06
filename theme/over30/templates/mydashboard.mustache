@@ -53,6 +53,7 @@
     {{{ output.standard_top_of_body_html }}}
 
     {{> theme_over30/o30nav }}
+    {{#o30sidebar}}{{> theme_over30/o30sidebar }}{{/o30sidebar}}
     {{#courseindex}}
         {{< theme_boost/drawer }}
             {{$id}}theme_boost-drawers-courseindex{{/id}}
@@ -167,7 +168,50 @@
                             <h1 class="o30-studio__title">{{o30dashboardheading}}</h1>
                             <p class="o30-studio__sub">{{o30dashboardsubtitle}}</p>
                         </header>
-                        {{{ output.main_content }}}
+
+                        <div class="o30-dash__top">
+                            {{#o30hascalendar}}
+                            <section class="o30-panel o30-dash__cal">
+                                <h2 class="o30-serif o30-panel__title">Kalendarz</h2>
+                                {{{ o30calendarhtml }}}
+                            </section>
+                            {{/o30hascalendar}}
+                            {{#o30hastimeline}}
+                            <section class="o30-panel o30-dash__timeline">
+                                <h2 class="o30-serif o30-panel__title">Oś czasu</h2>
+                                {{{ o30timelinehtml }}}
+                            </section>
+                            {{/o30hastimeline}}
+                        </div>
+
+                        <section class="o30-dash__courses">
+                            <div class="o30-dash__sectionhead">
+                                <h2 class="o30-serif">Moje kursy</h2>
+                            </div>
+                            {{{ output.main_content }}}
+                        </section>
+
+                        {{#o30hascatalog}}
+                        <section class="o30-dash__catalog">
+                            <div class="o30-dash__sectionhead">
+                                <h2 class="o30-serif">Odkryj nowe kursy</h2>
+                                <a class="o30-dash__more" href="{{o30courselisturl}}">Cały katalog →</a>
+                            </div>
+                            <div class="o30-coursegrid o30-dash__catgrid">
+                                {{#o30catalogcards}}
+                                <a href="{{url}}" class="o30-card o30-card--light">
+                                    <div class="o30-card__media">
+                                        <img src="{{img}}" alt="{{title}}" class="o30-card__img">
+                                        {{#cat}}<span class="o30-card__badge">{{cat}}</span>{{/cat}}
+                                    </div>
+                                    <h3 class="o30-serif o30-card__title">{{title}}</h3>
+                                    {{#hasprice}}<span class="o30-card__price">{{price}}</span>{{/hasprice}}
+                                </a>
+                                {{/o30catalogcards}}
+                            </div>
+                        </section>
+                        {{/o30hascatalog}}
+
                         {{{ output.activity_navigation }}}
                         {{{ output.course_content_footer }}}
 
@@ -188,4 +232,12 @@ require(['theme_boost/loader', 'theme_boost/drawer'], function(Loader, Drawer) {
     Drawer.init();
     M.util.js_complete('theme_boost/loader');
 });
+{{! Sidebar mobile toggle. Duplicated in course/catalog mustache; extract to amd/src/o30sidebar.js if a second behaviour is added. }}
+(function() {
+    var b = document.querySelector('[data-o30-sidebar-toggle]');
+    var o = document.querySelector('[data-o30-sidebar-overlay]');
+    var close = function(){ document.body.classList.remove('o30-sidebar-open'); };
+    if (b) { b.addEventListener('click', function(){ document.body.classList.toggle('o30-sidebar-open'); }); }
+    if (o) { o.addEventListener('click', close); }
+})();
 {{/js}}

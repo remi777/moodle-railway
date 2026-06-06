@@ -570,3 +570,94 @@ a:focus, a:focus-visible, button:focus, button:focus-visible,
 .courseindex .courseindex-item.pageitem .courseindex-name,
 .courseindex .courseindex-item.pageitem .courseindex-chevron { color: $terracotta; }
 .courseindex .courseindex-item.pageitem .courseindex-link { font-weight: 600; }
+
+// =====================================================================
+//  GLOBAL LEFT SIDEBAR (.o30-sidebar) — app nav for logged-in users
+// =====================================================================
+$o30-sidebar-w: 240px;
+$o30-sidebar-rail: 64px;
+
+.o30-sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0; width: $o30-sidebar-w; z-index: 1060;
+    background: $espresso; color: #efe5e1; display: flex; flex-direction: column;
+    padding: 1.4rem 1rem; overflow-y: auto;
+}
+.o30-sidebar__brand { display: block; margin: .2rem .5rem 1.4rem; }
+.o30-sidebar__logoimg { display: block; width: 110px; height: 30px; background: url([[pix:theme_over30|logo-light]]) left center / contain no-repeat; }
+.o30-sidebar__nav { display: flex; flex-direction: column; gap: .15rem; flex: 1; }
+.o30-sidebar__item {
+    display: flex; align-items: center; gap: .85rem; padding: .65rem .7rem;
+    color: rgba(#efe5e1, .82); text-decoration: none; font-size: 14px; font-weight: 500;
+    transition: background-color .25s $ease, color .25s $ease;
+}
+.o30-sidebar__item:hover { background: #3a2a27; color: #fff; }
+.o30-sidebar__item.is-active { background: $terracotta; color: #fff; }
+.o30-sidebar__icon { width: 18px; height: 18px; flex: none; display: grid; place-items: center; }
+.o30-sidebar__icon svg { width: 18px; height: 18px; }
+.o30-sidebar__foot { margin-top: auto; }
+.o30-sidebar__foot .o30-sidebar__item { margin-bottom: .25rem; }
+.o30-sidebar__user { display: flex; align-items: center; gap: .65rem; padding: .6rem .7rem; border-top: 1px solid #41312e; margin-top: .35rem; }
+.o30-sidebar__avatar, .o30-sidebar__user .userpicture { width: 36px; height: 36px; border-radius: 50%; flex: none; }
+.o30-sidebar__usermeta { display: flex; flex-direction: column; min-width: 0; }
+.o30-sidebar__username { font-size: 12.5px; font-weight: 600; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.o30-sidebar__logout { font-size: 11px; color: $blush; text-decoration: none; }
+.o30-sidebar__logout:hover { color: #fff; }
+
+// Rail variant (inside a course): icons only.
+.o30-sidebar--rail { width: $o30-sidebar-rail; padding-left: .5rem; padding-right: .5rem; }
+.o30-sidebar--rail .o30-sidebar__label,
+.o30-sidebar--rail .o30-sidebar__usermeta,
+.o30-sidebar--rail .o30-sidebar__brand { display: none; }
+.o30-sidebar--rail .o30-sidebar__item { justify-content: center; padding: .65rem 0; }
+.o30-sidebar--rail .o30-sidebar__user { justify-content: center; padding: .6rem 0; }
+
+// Burger + overlay (mobile only).
+.o30-sidebar__burger { display: none; position: fixed; top: .75rem; left: .75rem; z-index: 1062; width: 40px; height: 40px; background: $espresso; color: #fff; border: 0; align-items: center; justify-content: center; }
+.o30-sidebar__overlay { display: none; position: fixed; inset: 0; background: rgba($espresso, .5); z-index: 1059; }
+
+// Content offset: push the whole page (top nav + main) right by sidebar width.
+// Logged-in pages get body.o30-has-sidebar / body.o30-has-rail (set in layouts).
+// Never offset the full-bleed front page.
+body.o30-has-sidebar:not(#page-site-index) #page-wrapper { padding-left: $o30-sidebar-w; }
+body.o30-has-rail:not(#page-site-index) #page-wrapper { padding-left: $o30-sidebar-rail; }
+
+@media (max-width: 991.98px) {
+    body.o30-has-sidebar:not(#page-site-index) #page-wrapper,
+    body.o30-has-rail:not(#page-site-index) #page-wrapper { padding-left: 0; }
+    .o30-sidebar { transform: translateX(-100%); transition: transform .3s $ease; width: $o30-sidebar-w; }
+    .o30-sidebar--rail .o30-sidebar__label, .o30-sidebar--rail .o30-sidebar__usermeta, .o30-sidebar--rail .o30-sidebar__brand { display: revert; }
+    .o30-sidebar--rail { width: $o30-sidebar-w; padding-left: 1rem; padding-right: 1rem; }
+    body.o30-sidebar-open .o30-sidebar { transform: none; }
+    body.o30-sidebar-open .o30-sidebar__overlay { display: block; }
+    .o30-sidebar__burger { display: inline-flex; }
+}
+
+// =====================================================================
+//  DASHBOARD LAYOUT B — calendar + timeline row, panels
+// =====================================================================
+.o30-panel { background: #fff; border: 1px solid rgba($espresso, .1); padding: 1.5rem 1.5rem 1.25rem; }
+.o30-panel__title { font-size: 1.4rem; color: $espresso; margin: 0 0 1rem; }
+
+.o30-dash__top { display: grid; grid-template-columns: 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+@media (min-width: 1024px) { .o30-dash__top { grid-template-columns: 320px 1fr; } }
+
+.o30-dash__sectionhead { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 1.5rem; }
+.o30-dash__sectionhead h2 { font-size: clamp(1.75rem, 3vw, 2.25rem); color: $espresso; margin: 0; }
+.o30-dash__courses { margin-bottom: 3rem; }
+
+// Native block markup inside panels: strip Moodle's card chrome, brand it.
+.o30-panel .block { border: 0; box-shadow: none; background: transparent; margin: 0; padding: 0; }
+.o30-panel .block .card-body { padding: 0; }
+.o30-panel .calendarwrapper { font-size: .9rem; }
+.o30-panel .calendarwrapper .today { background: $terracotta; color: #fff; }
+.o30-panel .event a, .o30-panel .block_timeline a { color: $terracotta; }
+
+// =====================================================================
+//  DASHBOARD catalog teaser + price
+// =====================================================================
+.o30-dash__catalog { background: $sand; border: 1px solid rgba($espresso, .08); padding: 2rem 2rem 2.25rem; }
+.o30-dash__more { font-size: 13px; text-transform: uppercase; letter-spacing: .1em; color: $terracotta; text-decoration: none; font-weight: 600; }
+.o30-dash__more:hover { color: $espresso; }
+.o30-dash__catgrid { gap: 2rem 1.5rem; }
+@media (min-width: 1024px) { .o30-dash__catgrid { grid-template-columns: repeat(4, 1fr); } }
+.o30-card__price { display: inline-block; margin-top: .35rem; color: $terracotta; font-weight: 700; font-size: .95rem; }

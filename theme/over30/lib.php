@@ -40,6 +40,59 @@ function theme_over30_nav_context($output) {
 }
 
 /**
+ * Build the global left-sidebar context (logged-in app navigation).
+ *
+ * Items: Kokpit, Moje kursy, Kalendarz, Katalog + footer (Profil, Wyloguj).
+ * Active item is derived from the current page URL/pagetype. Inside a course
+ * the sidebar renders as a narrow icon rail (rail=true) so it coexists with
+ * Boost's course-index drawer.
+ *
+ * @param moodle_page $page the current page
+ * @return array context for theme_over30/o30sidebar (loggedin=false hides it)
+ */
+function theme_over30_sidebar_context($page) {
+    global $USER, $CFG, $OUTPUT;
+    if (!isloggedin() || isguestuser() || $page->pagetype === 'site-index') {
+        return ['loggedin' => false];
+    }
+    $wwwroot = rtrim($CFG->wwwroot, '/');
+    $pagetype = (string)$page->pagetype;     // e.g. 'my-index', 'course-view-topics'
+    $incourse = !empty($page->course) && (int)$page->course->id !== (int)SITEID;
+
+    // Active detection by pagetype prefix.
+    $is = function($prefix) use ($pagetype) {
+        return strpos($pagetype, $prefix) === 0;
+    };
+    $mkicon = function($name) {
+        return [
+            'icon_grid'     => $name === 'grid',
+            'icon_book'     => $name === 'book',
+            'icon_calendar' => $name === 'calendar',
+            'icon_search'   => $name === 'search',
+        ];
+    };
+    $items = [
+        ['label' => 'Kokpit',     'url' => $wwwroot . '/my/'] + $mkicon('grid')     + ['active' => $pagetype === 'my-index'],
+        ['label' => 'Moje kursy', 'url' => $wwwroot . '/my/courses.php'] + $mkicon('book') + ['active' => $is('course-view') || $is('my-courses')],
+        ['label' => 'Kalendarz',  'url' => $wwwroot . '/calendar/view.php'] + $mkicon('calendar') + ['active' => $is('calendar-')],
+        ['label' => 'Katalog',    'url' => $wwwroot . '/course/'] + $mkicon('search') + ['active' => $is('course-index') || $is('course-category')],
+    ];
+
+    $userpic = $OUTPUT->user_picture($USER, ['size' => 36, 'link' => false, 'class' => 'o30-sidebar__avatar']);
+
+    return [
+        'loggedin'    => true,
+        'rail'        => $incourse,
+        'items'       => $items,
+        'userfullname' => fullname($USER),
+        'userpicture' => $userpic,
+        'profileurl'  => (new \core\url('/user/profile.php', ['id' => $USER->id]))->out(false),
+        'logouturl'   => (new \core\url('/login/logout.php', ['sesskey' => sesskey()]))->out(false),
+        'homeurl'     => $wwwroot . '/',
+    ];
+}
+
+/**
  * Build over30 course-card contexts for a set of visible courses.
  *
  * @param int $categoryid 0 = all categories, else only courses in this category.
@@ -99,6 +152,104 @@ function theme_over30_course_cards($categoryid = 0, $limit = 0) {
 }
 
 /**
+ * Build catalog teaser cards for the dashboard: visible courses the current
+ * user is NOT enrolled in, with optional price (course custom field 'price').
+ *
+ * @param int $limit max cards
+ * @return array list of ['cat','title','img','url','price','hasprice']
+ */
+function theme_over30_dashboard_catalog_cards($limit = 4) {
+    global $USER, $DB, $OUTPUT;
+    // Courses the user is enrolled in (exclusion set).
+    $enrolled = [];
+    foreach (enrol_get_users_courses($USER->id, true, 'id') as $c) {
+        $enrolled[(int)$c->id] = true;
+    }
+    // Price values by course id (direct join; handler returns NULL on this build).
+    $prices = [];
+    try {
+        $sql = "SELECT d.instanceid, d.value
+                  FROM {customfield_data} d
+                  JOIN {customfield_field} f ON f.id = d.fieldid
+                  JOIN {customfield_category} c ON c.id = f.categoryid
+                 WHERE f.shortname = 'price'
+                   AND c.component = 'core_course' AND c.area = 'course'";
+        foreach ($DB->get_records_sql($sql) as $r) {
+            $prices[(int)$r->instanceid] = trim((string)$r->value);
+        }
+    } catch (\Throwable $e) {
+        $prices = [];
+    }
+
+    $fallback = [
+        $OUTPUT->image_url('course-1', 'theme_over30')->out(),
+        $OUTPUT->image_url('course-2', 'theme_over30')->out(),
+        $OUTPUT->image_url('course-3', 'theme_over30')->out(),
+        $OUTPUT->image_url('course-4', 'theme_over30')->out(),
+    ];
+    $cards = [];
+    $i = 0;
+    try {
+        foreach (get_courses('all', 'c.sortorder ASC', 'c.id, c.fullname, c.category, c.visible') as $c) {
+            if ($c->id == SITEID || empty($c->visible) || !empty($enrolled[(int)$c->id])) {
+                continue;
+            }
+            $catname = '';
+            try {
+                $cat = core_course_category::get($c->category, IGNORE_MISSING, true);
+                $catname = $cat ? $cat->get_formatted_name() : '';
+            } catch (\Throwable $e) { $catname = ''; }
+            $img = '';
+            try {
+                $img = \core_course\external\course_summary_exporter::get_course_image(get_course($c->id)) ?: '';
+            } catch (\Throwable $e) { $img = ''; }
+            if (!$img) { $img = $fallback[$i % count($fallback)]; }
+            $price = isset($prices[(int)$c->id]) ? $prices[(int)$c->id] : '';
+            $cards[] = [
+                'cat' => core_text::strtoupper($catname),
+                'title' => format_string($c->fullname),
+                'img' => $img,
+                'url' => (new \core\url('/course/view.php', ['id' => $c->id]))->out(false),
+                'price' => $price,
+                'hasprice' => $price !== '',
+            ];
+            $i++;
+            if ($limit && $i >= $limit) { break; }
+        }
+    } catch (\Throwable $e) { $cards = []; }
+    return $cards;
+}
+
+/**
+ * Render the dashboard's calendar (mini month) and timeline native blocks to
+ * HTML, deterministically (independent of per-user block placement).
+ * Signatures verified by a live spike on this Moodle 5.2 build.
+ *
+ * @param moodle_page $page
+ * @return array ['calendarhtml'=>string, 'timelinehtml'=>string]
+ */
+function theme_over30_dashboard_blocks($page) {
+    global $CFG;
+    $calendarhtml = '';
+    $timelinehtml = '';
+    try {
+        $renderable = new \block_timeline\output\main(0, 'sortbydates', false, 0);
+        $timelinehtml = $page->get_renderer('block_timeline')->render($renderable);
+    } catch (\Throwable $e) {
+        $timelinehtml = '';
+    }
+    try {
+        require_once($CFG->dirroot . '/calendar/lib.php');
+        $calendar = \calendar_information::create(time(), SITEID, null);
+        list($data, $template) = calendar_get_view($calendar, 'mini');
+        $calendarhtml = $page->get_renderer('core_calendar')->render_from_template($template, $data);
+    } catch (\Throwable $e) {
+        $calendarhtml = '';
+    }
+    return ['calendarhtml' => $calendarhtml, 'timelinehtml' => $timelinehtml];
+}
+
+/**
  * Build the "Program Kursu" accordion data (sections -> lessons) for preview.
  * Names only; no links/content (safe to show to anonymous visitors).
  *
@@ -143,7 +294,7 @@ function theme_over30_course_program($course) {
  */
 function theme_over30_course_meta($course) {
     global $DB;
-    $labels = ['duration' => 'Czas trwania', 'level' => 'Poziom', 'audience' => 'Dla kogo', 'certificate' => 'Certyfikat'];
+    $labels = ['price' => 'Cena', 'duration' => 'Czas trwania', 'level' => 'Poziom', 'audience' => 'Dla kogo', 'certificate' => 'Certyfikat'];
     $rows = [];
     try {
         // Read the stored values directly. The customfield handler's

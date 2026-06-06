@@ -47,9 +47,14 @@ if (defined('BEHAT_SITE_RUNNING') && get_user_preferences('behat_keep_drawer_clo
     $blockdraweropen = true;
 }
 
+$sidebar = theme_over30_sidebar_context($PAGE);
+
 $extraclasses = ['uses-drawers'];
 if ($courseindexopen) {
     $extraclasses[] = 'drawer-open-index';
+}
+if (!empty($sidebar['loggedin'])) {
+    $extraclasses[] = !empty($sidebar['rail']) ? 'o30-has-rail' : 'o30-has-sidebar';
 }
 
 $blockshtml = $OUTPUT->blocks('side-pre');
@@ -126,6 +131,18 @@ $templatecontext = [
     'o30dashboardheading' => get_string('o30dashboardheading', 'theme_over30'),
     'o30dashboardsubtitle' => get_string('o30dashboardsubtitle', 'theme_over30'),
     'o30nav' => theme_over30_nav_context($OUTPUT),
+    'o30sidebar' => $sidebar,
 ];
+
+$catcards = theme_over30_dashboard_catalog_cards(4);
+$templatecontext['o30catalogcards'] = $catcards;
+$templatecontext['o30hascatalog'] = !empty($catcards);
+$templatecontext['o30courselisturl'] = (new \core\url('/course/'))->out(false);
+
+$dashblocks = theme_over30_dashboard_blocks($PAGE);
+$templatecontext['o30calendarhtml'] = $dashblocks['calendarhtml'];
+$templatecontext['o30timelinehtml'] = $dashblocks['timelinehtml'];
+$templatecontext['o30hascalendar'] = $dashblocks['calendarhtml'] !== '';
+$templatecontext['o30hastimeline'] = $dashblocks['timelinehtml'] !== '';
 
 echo $OUTPUT->render_from_template('theme_over30/mydashboard', $templatecontext);

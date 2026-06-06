@@ -1,0 +1,50 @@
+{{!
+    @template theme_over30/o30sidebar
+
+    over30 global left navigation. Logged-in only (loggedin guards the whole
+    aside). Full width on app pages; narrow icon rail (o30-sidebar--rail) inside
+    a course so it coexists with Boost's course-index drawer. Off-canvas on
+    mobile, toggled by .o30-sidebar__burger.
+
+    Context: loggedin, rail, items[{label,url,active,icon_*}], userfullname,
+             userpicture(html), profileurl, logouturl, homeurl.
+}}
+{{#loggedin}}
+<button class="o30-sidebar__burger" type="button" aria-label="Menu" data-o30-sidebar-toggle>
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+</button>
+<div class="o30-sidebar__overlay" data-o30-sidebar-overlay></div>
+<aside class="o30-sidebar {{#rail}}o30-sidebar--rail{{/rail}}" data-region="o30-sidebar">
+    <a class="o30-sidebar__brand" href="{{homeurl}}" aria-label="over30">
+        <span class="o30-sidebar__logoimg" role="img" aria-label="over30"></span>
+    </a>
+    <nav class="o30-sidebar__nav">
+        {{#items}}
+        <a class="o30-sidebar__item {{#active}}is-active{{/active}}" href="{{url}}" title="{{label}}" {{#active}}aria-current="page"{{/active}}>
+            <span class="o30-sidebar__icon">
+                {{#icon_grid}}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>{{/icon_grid}}
+                {{#icon_book}}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>{{/icon_book}}
+                {{#icon_calendar}}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>{{/icon_calendar}}
+                {{#icon_search}}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>{{/icon_search}}
+            </span>
+            <span class="o30-sidebar__label">{{label}}</span>
+        </a>
+        {{/items}}
+    </nav>
+    <div class="o30-sidebar__foot">
+        <a class="o30-sidebar__item" href="{{profileurl}}" title="Profil">
+            <span class="o30-sidebar__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+            </span>
+            <span class="o30-sidebar__label">Profil</span>
+        </a>
+        <div class="o30-sidebar__user">
+            {{{ userpicture }}}
+            <div class="o30-sidebar__usermeta">
+                <span class="o30-sidebar__username">{{userfullname}}</span>
+                <a class="o30-sidebar__logout" href="{{logouturl}}">Wyloguj</a>
+            </div>
+        </div>
+    </div>
+</aside>
+{{/loggedin}}
