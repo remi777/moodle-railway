@@ -40,6 +40,59 @@ function theme_over30_nav_context($output) {
 }
 
 /**
+ * Build the global left-sidebar context (logged-in app navigation).
+ *
+ * Items: Kokpit, Moje kursy, Kalendarz, Katalog + footer (Profil, Wyloguj).
+ * Active item is derived from the current page URL/pagetype. Inside a course
+ * the sidebar renders as a narrow icon rail (rail=true) so it coexists with
+ * Boost's course-index drawer.
+ *
+ * @param moodle_page $page the current page
+ * @return array context for theme_over30/o30sidebar (loggedin=false hides it)
+ */
+function theme_over30_sidebar_context($page) {
+    global $USER, $CFG, $OUTPUT;
+    if (!isloggedin() || isguestuser()) {
+        return ['loggedin' => false];
+    }
+    $wwwroot = rtrim($CFG->wwwroot, '/');
+    $pagetype = (string)$page->pagetype;     // e.g. 'my-index', 'course-view-topics'
+    $incourse = !empty($page->course) && (int)$page->course->id !== (int)SITEID;
+
+    // Active detection by pagetype prefix.
+    $is = function($prefix) use ($pagetype) {
+        return strpos($pagetype, $prefix) === 0;
+    };
+    $mkicon = function($name) {
+        return [
+            'icon_grid'     => $name === 'grid',
+            'icon_book'     => $name === 'book',
+            'icon_calendar' => $name === 'calendar',
+            'icon_search'   => $name === 'search',
+        ];
+    };
+    $items = [
+        ['label' => 'Kokpit',     'url' => $wwwroot . '/my/'] + $mkicon('grid')     + ['active' => $is('my-')],
+        ['label' => 'Moje kursy', 'url' => $wwwroot . '/my/courses.php'] + $mkicon('book') + ['active' => $is('course-view') || $is('my-courses')],
+        ['label' => 'Kalendarz',  'url' => $wwwroot . '/calendar/view.php'] + $mkicon('calendar') + ['active' => $is('calendar-')],
+        ['label' => 'Katalog',    'url' => $wwwroot . '/course/'] + $mkicon('search') + ['active' => $is('course-index') || $is('course-category')],
+    ];
+
+    $userpic = $OUTPUT->user_picture($USER, ['size' => 36, 'link' => false, 'class' => 'o30-sidebar__avatar']);
+
+    return [
+        'loggedin'    => true,
+        'rail'        => $incourse,
+        'items'       => $items,
+        'userfullname'=> fullname($USER),
+        'userpicture' => $userpic,
+        'profileurl'  => (new \core\url('/user/profile.php', ['id' => $USER->id]))->out(false),
+        'logouturl'   => (new \core\url('/login/logout.php', ['sesskey' => sesskey()]))->out(false),
+        'homeurl'     => $wwwroot . '/',
+    ];
+}
+
+/**
  * Build over30 course-card contexts for a set of visible courses.
  *
  * @param int $categoryid 0 = all categories, else only courses in this category.
