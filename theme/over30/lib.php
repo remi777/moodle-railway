@@ -265,7 +265,7 @@ function theme_over30_course_program($course) {
  */
 function theme_over30_course_meta($course) {
     global $DB;
-    $labels = ['duration' => 'Czas trwania', 'level' => 'Poziom', 'audience' => 'Dla kogo', 'certificate' => 'Certyfikat'];
+    $labels = ['price' => 'Cena', 'duration' => 'Czas trwania', 'level' => 'Poziom', 'audience' => 'Dla kogo', 'certificate' => 'Certyfikat'];
     $rows = [];
     try {
         // Read the stored values directly. The customfield handler's
