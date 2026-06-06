@@ -191,6 +191,27 @@
                             {{{ output.main_content }}}
                         </section>
 
+                        {{#o30hascatalog}}
+                        <section class="o30-dash__catalog">
+                            <div class="o30-dash__sectionhead">
+                                <h2 class="o30-serif">Odkryj nowe kursy</h2>
+                                <a class="o30-dash__more" href="{{o30courselisturl}}">Cały katalog →</a>
+                            </div>
+                            <div class="o30-coursegrid o30-coursegrid--light o30-dash__catgrid">
+                                {{#o30catalogcards}}
+                                <a href="{{url}}" class="o30-card o30-card--light">
+                                    <div class="o30-card__media">
+                                        <img src="{{img}}" alt="{{title}}" class="o30-card__img">
+                                        {{#cat}}<span class="o30-card__badge">{{cat}}</span>{{/cat}}
+                                    </div>
+                                    <h3 class="o30-serif o30-card__title">{{title}}</h3>
+                                    {{#hasprice}}<span class="o30-card__price">{{price}}</span>{{/hasprice}}
+                                </a>
+                                {{/o30catalogcards}}
+                            </div>
+                        </section>
+                        {{/o30hascatalog}}
+
                         {{{ output.activity_navigation }}}
                         {{{ output.course_content_footer }}}
 
