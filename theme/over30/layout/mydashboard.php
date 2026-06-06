@@ -134,4 +134,9 @@ $templatecontext = [
     'o30sidebar' => $sidebar,
 ];
 
+$catcards = theme_over30_dashboard_catalog_cards(4);
+$templatecontext['o30catalogcards'] = $catcards;
+$templatecontext['o30hascatalog'] = !empty($catcards);
+$templatecontext['o30courselisturl'] = (new \core\url('/course/'))->out(false);
+
 echo $OUTPUT->render_from_template('theme_over30/mydashboard', $templatecontext);

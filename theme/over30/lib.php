@@ -152,6 +152,75 @@ function theme_over30_course_cards($categoryid = 0, $limit = 0) {
 }
 
 /**
+ * Build catalog teaser cards for the dashboard: visible courses the current
+ * user is NOT enrolled in, with optional price (course custom field 'price').
+ *
+ * @param int $limit max cards
+ * @return array list of ['cat','title','img','url','price','hasprice']
+ */
+function theme_over30_dashboard_catalog_cards($limit = 4) {
+    global $USER, $DB, $OUTPUT;
+    // Courses the user is enrolled in (exclusion set).
+    $enrolled = [];
+    foreach (enrol_get_users_courses($USER->id, true, 'id') as $c) {
+        $enrolled[(int)$c->id] = true;
+    }
+    // Price values by course id (direct join; handler returns NULL on this build).
+    $prices = [];
+    try {
+        $sql = "SELECT d.instanceid, d.value
+                  FROM {customfield_data} d
+                  JOIN {customfield_field} f ON f.id = d.fieldid
+                  JOIN {customfield_category} c ON c.id = f.categoryid
+                 WHERE f.shortname = 'price'
+                   AND c.component = 'core_course' AND c.area = 'course'";
+        foreach ($DB->get_records_sql($sql) as $r) {
+            $prices[(int)$r->instanceid] = trim((string)$r->value);
+        }
+    } catch (\Throwable $e) {
+        $prices = [];
+    }
+
+    $fallback = [
+        $OUTPUT->image_url('course-1', 'theme_over30')->out(),
+        $OUTPUT->image_url('course-2', 'theme_over30')->out(),
+        $OUTPUT->image_url('course-3', 'theme_over30')->out(),
+        $OUTPUT->image_url('course-4', 'theme_over30')->out(),
+    ];
+    $cards = [];
+    $i = 0;
+    try {
+        foreach (get_courses('all', 'c.sortorder ASC', 'c.id, c.fullname, c.category, c.visible') as $c) {
+            if ($c->id == SITEID || empty($c->visible) || !empty($enrolled[(int)$c->id])) {
+                continue;
+            }
+            $catname = '';
+            try {
+                $cat = core_course_category::get($c->category, IGNORE_MISSING, true);
+                $catname = $cat ? $cat->get_formatted_name() : '';
+            } catch (\Throwable $e) { $catname = ''; }
+            $img = '';
+            try {
+                $img = \core_course\external\course_summary_exporter::get_course_image(get_course($c->id)) ?: '';
+            } catch (\Throwable $e) { $img = ''; }
+            if (!$img) { $img = $fallback[$i % count($fallback)]; }
+            $price = isset($prices[(int)$c->id]) ? $prices[(int)$c->id] : '';
+            $cards[] = [
+                'cat' => core_text::strtoupper($catname),
+                'title' => format_string($c->fullname),
+                'img' => $img,
+                'url' => (new \core\url('/course/view.php', ['id' => $c->id]))->out(false),
+                'price' => format_string($price),
+                'hasprice' => $price !== '',
+            ];
+            $i++;
+            if ($limit && $i >= $limit) { break; }
+        }
+    } catch (\Throwable $e) { $cards = []; }
+    return $cards;
+}
+
+/**
  * Build the "Program Kursu" accordion data (sections -> lessons) for preview.
  * Names only; no links/content (safe to show to anonymous visitors).
  *
