@@ -20,7 +20,7 @@
     </a>
     <nav class="o30-sidebar__nav">
         {{#items}}
-        <a class="o30-sidebar__item {{#active}}is-active{{/active}}" href="{{url}}" title="{{label}}">
+        <a class="o30-sidebar__item {{#active}}is-active{{/active}}" href="{{url}}" title="{{label}}" {{#active}}aria-current="page"{{/active}}>
             <span class="o30-sidebar__icon">
                 {{#icon_grid}}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>{{/icon_grid}}
                 {{#icon_book}}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>{{/icon_book}}

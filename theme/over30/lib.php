@@ -52,7 +52,7 @@ function theme_over30_nav_context($output) {
  */
 function theme_over30_sidebar_context($page) {
     global $USER, $CFG, $OUTPUT;
-    if (!isloggedin() || isguestuser()) {
+    if (!isloggedin() || isguestuser() || $page->pagetype === 'site-index') {
         return ['loggedin' => false];
     }
     $wwwroot = rtrim($CFG->wwwroot, '/');
@@ -72,7 +72,7 @@ function theme_over30_sidebar_context($page) {
         ];
     };
     $items = [
-        ['label' => 'Kokpit',     'url' => $wwwroot . '/my/'] + $mkicon('grid')     + ['active' => $is('my-')],
+        ['label' => 'Kokpit',     'url' => $wwwroot . '/my/'] + $mkicon('grid')     + ['active' => $pagetype === 'my-index'],
         ['label' => 'Moje kursy', 'url' => $wwwroot . '/my/courses.php'] + $mkicon('book') + ['active' => $is('course-view') || $is('my-courses')],
         ['label' => 'Kalendarz',  'url' => $wwwroot . '/calendar/view.php'] + $mkicon('calendar') + ['active' => $is('calendar-')],
         ['label' => 'Katalog',    'url' => $wwwroot . '/course/'] + $mkicon('search') + ['active' => $is('course-index') || $is('course-category')],
@@ -84,7 +84,7 @@ function theme_over30_sidebar_context($page) {
         'loggedin'    => true,
         'rail'        => $incourse,
         'items'       => $items,
-        'userfullname'=> fullname($USER),
+        'userfullname' => fullname($USER),
         'userpicture' => $userpic,
         'profileurl'  => (new \core\url('/user/profile.php', ['id' => $USER->id]))->out(false),
         'logouturl'   => (new \core\url('/login/logout.php', ['sesskey' => sesskey()]))->out(false),
