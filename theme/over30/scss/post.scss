@@ -651,3 +651,13 @@ body.o30-has-rail:not(#page-site-index) #page-wrapper { padding-left: $o30-sideb
 .o30-panel .calendarwrapper { font-size: .9rem; }
 .o30-panel .calendarwrapper .today { background: $terracotta; color: #fff; }
 .o30-panel .event a, .o30-panel .block_timeline a { color: $terracotta; }
+
+// =====================================================================
+//  DASHBOARD catalog teaser + price
+// =====================================================================
+.o30-dash__catalog { background: $sand; border: 1px solid rgba($espresso, .08); padding: 2rem 2rem 2.25rem; }
+.o30-dash__more { font-size: 13px; text-transform: uppercase; letter-spacing: .1em; color: $terracotta; text-decoration: none; font-weight: 600; }
+.o30-dash__more:hover { color: $espresso; }
+.o30-dash__catgrid { gap: 2rem 1.5rem; }
+@media (min-width: 1024px) { .o30-dash__catgrid { grid-template-columns: repeat(4, 1fr); } }
+.o30-card__price { display: inline-block; margin-top: .35rem; color: $terracotta; font-weight: 700; font-size: .95rem; }
